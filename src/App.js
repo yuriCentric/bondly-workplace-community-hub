@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
@@ -7,8 +7,12 @@ import TravelCarpool from './components/TravelCarpool';
 import LocalRecommendations from './components/LocalRecommendations';
 import EventInterestGroups from './components/EventInterestGroups';
 import SkillSwapMentorship from './components/SkillSwapMentorship';
+import LoginMenu from './components/LoginMenu';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div>
       <header>
@@ -21,8 +25,20 @@ const App = () => {
             <li><NavLink to="/local-recommendations">Local Recommendations</NavLink></li>
             <li><NavLink to="/event-interest-groups">Event & Interest Groups</NavLink></li>
             <li><NavLink to="/skill-swap-mentorship">Skill Swap & Mentorship</NavLink></li>
+            <li><NavLink to="/dashboard">Dashboard</NavLink></li>
           </ul>
         </nav>
+        <div style={{
+          float: 'right',
+          marginRight: '20px',
+          alignItems: 'center',
+          backgroundColor: '#f0f0f0',
+          padding: '8px 12px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 6px rgba(0,0,0,0.1)'
+        }}>
+          <LoginMenu onLoginChange={setIsLoggedIn} />
+        </div>
       </header>
       <main>
         <Routes>
@@ -32,6 +48,7 @@ const App = () => {
           <Route path="/local-recommendations" element={<LocalRecommendations />} />
           <Route path="/event-interest-groups" element={<EventInterestGroups />} />
           <Route path="/skill-swap-mentorship" element={<SkillSwapMentorship />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </main>
     </div>
