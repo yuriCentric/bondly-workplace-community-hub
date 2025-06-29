@@ -100,98 +100,112 @@ const BuySell = () => {
       <p>
         A company-only marketplace to exchange second-hand items like electronics, furniture, or books—safe, simple, and internal.
       </p>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          placeholder="Item title"
-          value={form.title}
-          onChange={handleChange}
-          required
-          disabled={loading}
-        />
-        <textarea
-          name="description"
-          placeholder="Item description"
-          value={form.description}
-          onChange={handleChange}
-          disabled={loading}
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={form.price}
-          onChange={handleChange}
-          disabled={loading}
-          min="0"
-          step="0.01"
-        />
-        <input
-          type="file"
-          name="pics"
-          accept="image/*"
-          multiple
-          onChange={handlePicsChange}
-          disabled={loading}
-        />
-        <small>Upload up to 3 images</small>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-          value={form.address}
-          onChange={handleChange}
-          disabled={loading}
-        />
-        <input
-          type="text"
-          name="city"
-          placeholder="City"
-          value={form.city}
-          onChange={handleChange}
-          disabled={loading}
-        />
-        <label htmlFor="category" style={{ display: 'block', marginTop: '10px', marginBottom: '5px', fontWeight: 'bold' }}>
-          Category
-        </label>
-        <select
-          id="category"
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          disabled={loading}
-          required
-          style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            width: '100%',
-            maxWidth: '300px',
-            fontSize: '16px',
-          }}
-        >
-          <option value="" disabled>
-            Select category
-          </option>
-          <option value="Electronics">Electronics</option>
-          <option value="Furniture">Furniture</option>
-          <option value="Books">Books</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Other">Other</option>
-        </select>
-        <button type="submit" disabled={loading}>
+      {error && <p className="form-error">Error: {error}</p>}
+      <form onSubmit={handleSubmit} className="modern-form">
+        <div className="form-group">
+          <input
+            type="text"
+            name="title"
+            placeholder="Item title"
+            value={form.title}
+            onChange={handleChange}
+            required
+            disabled={loading}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <textarea
+            name="description"
+            placeholder="Item description"
+            value={form.description}
+            onChange={handleChange}
+            disabled={loading}
+            className="form-textarea"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={form.price}
+            onChange={handleChange}
+            disabled={loading}
+            min="0"
+            step="0.01"
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="file"
+            name="pics"
+            accept="image/*"
+            multiple
+            onChange={handlePicsChange}
+            disabled={loading}
+            className="form-input"
+          />
+          <small>Upload up to 3 images</small>
+        </div>
+        {error && <p className="form-error">{error}</p>}
+        <div className="form-group">
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            value={form.address}
+            onChange={handleChange}
+            disabled={loading}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            value={form.city}
+            onChange={handleChange}
+            disabled={loading}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="category" className="form-label">
+            Category
+          </label>
+          <select
+            id="category"
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            disabled={loading}
+            required
+            className="form-select"
+          >
+            <option value="" disabled>
+              Select category
+            </option>
+            <option value="Electronics">Electronics</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Books">Books</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Car">Car</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <button type="submit" disabled={loading} className="form-button">
           {loading ? 'Saving...' : 'Add Item'}
         </button>
       </form>
       {loading && items.length === 0 ? (
         <p>Loading items...</p>
       ) : (
-        <ul className="item-list">
+        <ul className="item-grid">
           {items.map((item) => (
-            <li key={item.id}>
+            <li key={item.id} className="item-card">
               <strong>{item.title}</strong>
               <p>{item.description}</p>
               {item.price && <p>Price: ${item.price}</p>}
@@ -205,7 +219,7 @@ const BuySell = () => {
                       key={index}
                       src={pic}
                       alt={`Item pic ${index + 1}`}
-                      style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '5px' }}
+                      className="item-pic"
                     />
                   ))}
                 </div>
@@ -225,7 +239,7 @@ const BuySell = () => {
                   }
                 }}
                 disabled={loading}
-                style={{ marginTop: '5px', backgroundColor: '#ff4d4f', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '3px', cursor: 'pointer' }}
+                className="delete-button"
               >
                 Delete
               </button>
