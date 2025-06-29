@@ -1,66 +1,41 @@
-import React, { useEffect } from 'react';
-import { PublicClientApplication } from '@azure/msal-browser';
-import { MsalProvider, useMsal, useIsAuthenticated, useAccount } from '@azure/msal-react';
+import React, { useState, useEffect } from 'react';
 
-const msalConfig = {
-  auth: {
-    clientId: 'YOUR_MICROSOFT_CLIENT_ID',
-    redirectUri: window.location.origin,
-  },
-};
-
-const msalInstance = new PublicClientApplication(msalConfig);
-
-const MicrosoftLoginButton = () => {
-  const { instance } = useMsal();
+const MicrosoftAuth = ({ onLoginChange }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState('');
 
   const handleLogin = () => {
-    instance.loginPopup().catch(e => {
-      console.error(e);
-    });
+    // Simulate a fake login flow
+    setTimeout(() => {
+      setIsAuthenticated(true);
+      setUserName('Demo User');
+      onLoginChange(true);
+    }, 500);
   };
-
-  return <button onClick={handleLogin}>Login with Microsoft</button>;
-};
-
-const MicrosoftLogoutButton = () => {
-  const { instance, accounts } = useMsal();
 
   const handleLogout = () => {
-    instance.logoutPopup({
-      account: accounts[0],
-    });
+    setIsAuthenticated(false);
+    setUserName('');
+    onLoginChange(false);
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
-};
-
-const MicrosoftAuthContent = ({ onLoginChange }) => {
-  const isAuthenticated = useIsAuthenticated();
-  const account = useAccount();
-
   useEffect(() => {
+    // On mount, assume not logged in
     onLoginChange(isAuthenticated);
   }, [isAuthenticated, onLoginChange]);
 
   return (
     <div>
-      {isAuthenticated && account ? (
+      {isAuthenticated ? (
         <div>
-          <h3>Welcome, {account.name}</h3>
-          <MicrosoftLogoutButton />
+          <h3>Welcome, {userName}</h3>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
-        <MicrosoftLoginButton />
+        <button onClick={handleLogin}>Login with Microsoft (Demo)</button>
       )}
     </div>
   );
 };
-
-const MicrosoftAuth = ({ onLoginChange }) => (
-  <MsalProvider instance={msalInstance}>
-    <MicrosoftAuthContent onLoginChange={onLoginChange} />
-  </MsalProvider>
-);
 
 export default MicrosoftAuth;
