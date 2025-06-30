@@ -67,53 +67,65 @@ const TravelCarpool = () => {
         Plan travel with colleagues for office visits or offsites. Find and
         offer carpool options to save time and cost.
       </p>
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="travelFrom"
-          placeholder="Travel from"
-          value={form.travelFrom}
-          onChange={handleChange}
-          required
-          disabled={loading}
-        />
-        <input
-          type="text"
-          name="travelTo"
-          placeholder="Travel to"
-          value={form.travelTo}
-          onChange={handleChange}
-          required
-          disabled={loading}
-        />
-        <input
-          type="date"
-          name="date"
-          placeholder="Date"
-          value={form.date}
-          onChange={handleChange}
-          disabled={loading}
-        />
-        <input
-          type="number"
-          name="numberOfPassengers"
-          placeholder="Number of passengers"
-          value={form.numberOfPassengers}
-          onChange={handleChange}
-          min="1"
-          disabled={loading}
-        />
-        <button type="submit" disabled={loading}>
+      {error && <p className="form-error">Error: {error}</p>}
+      <form onSubmit={handleSubmit} className="modern-form">
+        <div className="form-group">
+          <input
+            type="text"
+            name="travelFrom"
+            placeholder="Travel from"
+            value={form.travelFrom}
+            onChange={handleChange}
+            required
+            disabled={loading}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            name="travelTo"
+            placeholder="Travel to"
+            value={form.travelTo}
+            onChange={handleChange}
+            required
+            disabled={loading}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="date"
+            name="date"
+            placeholder="Date"
+            value={form.date}
+            onChange={handleChange}
+            disabled={loading}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="number"
+            name="numberOfPassengers"
+            placeholder="Number of passengers"
+            value={form.numberOfPassengers}
+            onChange={handleChange}
+            min="1"
+            disabled={loading}
+            className="form-input"
+          />
+        </div>
+        <button type="submit" disabled={loading} className="form-button">
           {loading ? "Saving..." : "Add Travel/Carpool"}
         </button>
       </form>
       {loading && items.length === 0 ? (
         <p>Loading travel items...</p>
       ) : (
-        <ul className="item-list">
+        <ul className="item-grid">
           {items.map((item) => (
-            <li key={item._id}>
+            <li key={item.id} className="item-card">
               <p>From: {item.travelFrom}</p>
               <p>To: {item.travelTo}</p>
               <p>Date: {item.date}</p>
@@ -141,15 +153,7 @@ const TravelCarpool = () => {
                   }
                 }}
                 disabled={loading}
-                style={{
-                  marginTop: "5px",
-                  backgroundColor: "#ff4d4f",
-                  color: "white",
-                  border: "none",
-                  padding: "5px 10px",
-                  borderRadius: "3px",
-                  cursor: "pointer",
-                }}
+                className="delete-button"
               >
                 Delete
               </button>

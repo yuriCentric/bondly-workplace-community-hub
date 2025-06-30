@@ -61,78 +61,88 @@ const Dashboard = () => {
   }, []);
 
   if (loading) return <p>Loading dashboard entries...</p>;
-  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
+  if (error) return <p className="form-error">Error: {error}</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="dashboard-grid" style={{ padding: "20px" }}>
       <h2>User Dashboard</h2>
-      <section>
-        <h3>Buy & Sell</h3>
-        {buySellEntries.length === 0 ? (
-          <p>No entries found.</p>
-        ) : (
-          <ul>
-            {buySellEntries.map((item) => (
-              <li key={item.id}>
-                <strong>{item.title}</strong>: {item.description}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-      <section>
-        <h3>Travel & Carpooling</h3>
-        {travelCarpoolEntries.length === 0 ? (
-          <p>No entries found.</p>
-        ) : (
-          <ul>
-            {travelCarpoolEntries.map((item) => (
-              <li key={item.id}>
-                <p>From: {item.travelFrom}</p>
-                <p>To: {item.travelTo}</p>
-                <p>Date: {item.date}</p>
-                <p>Passengers: {item.numberOfPassengers}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-      <section>
-        <h3>Local Recommendations</h3>
-        {localRecommendations.length === 0 ? (
-          <p>No entries found.</p>
-        ) : (
-          <ul>
-            {localRecommendations.map((item) => (
-              <li key={item.id}>{item.description}</li>
-            ))}
-          </ul>
-        )}
-      </section>
-      <section>
-        <h3>Event & Interest Groups</h3>
-        {eventInterestGroups.length === 0 ? (
-          <p>No entries found.</p>
-        ) : (
-          <ul>
-            {eventInterestGroups.map((item) => (
-              <li key={item.id}>{item.description}</li>
-            ))}
-          </ul>
-        )}
-      </section>
-      <section>
-        <h3>Skill Swap & Mentorship</h3>
-        {skillSwapMentorship.length === 0 ? (
-          <p>No entries found.</p>
-        ) : (
-          <ul>
-            {skillSwapMentorship.map((item) => (
-              <li key={item.id}>{item.description}</li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <div className="dashboard-tile">
+        <section>
+          <h3>Buy & Sell</h3>
+          {buySellEntries.length === 0 ? (
+            <p>No entries found.</p>
+          ) : (
+            <ul>
+              {buySellEntries.map((item) => (
+                <li key={item.id}>
+                  <strong>{item.title}</strong>: {item.description}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+      <div className="dashboard-tile">
+        <section>
+          <h3>Travel & Carpooling</h3>
+          {travelCarpoolEntries.length === 0 ? (
+            <p>No entries found.</p>
+          ) : (
+            <ul>
+              {travelCarpoolEntries.map((item) => (
+                <li key={item.id}>
+                  <p>From: {item.travelFrom}</p>
+                  <p>To: {item.travelTo}</p>
+                  <p>Date: {item.date}</p>
+                  <p>Passengers: {item.numberOfPassengers}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+      <div className="dashboard-tile">
+        <section>
+          <h3>Local Recommendations</h3>
+          {localRecommendations.length === 0 ? (
+            <p>No entries found.</p>
+          ) : (
+            <ul>
+              {localRecommendations.map((item) => (
+                <li key={item.id}>{item.description}</li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+      <div className="dashboard-tile">
+        <section>
+          <h3>Event & Interest Groups</h3>
+          {eventInterestGroups.length === 0 ? (
+            <p>No entries found.</p>
+          ) : (
+            <ul>
+              {eventInterestGroups.map((item) => (
+                <li key={item.id}>{item.description}</li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+      <div className="dashboard-tile">
+        <section>
+          <h3>Skill Swap & Mentorship</h3>
+          {skillSwapMentorship.length === 0 ? (
+            <p>No entries found.</p>
+          ) : (
+            <ul>
+              {skillSwapMentorship.map((item) => (
+                <li key={item.id}>{item.description}</li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
     </div>
   );
 };
