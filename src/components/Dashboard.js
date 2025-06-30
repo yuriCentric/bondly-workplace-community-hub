@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const Dashboard = () => {
   const [buySellEntries, setBuySellEntries] = useState([]);
@@ -14,24 +14,35 @@ const Dashboard = () => {
       setLoading(true);
       setError(null);
       try {
-        const buySellRes = await fetch('http://localhost:4000/items');
-        if (!buySellRes.ok) throw new Error('Failed to fetch Buy & Sell entries');
+        const buySellRes = await fetch("http://localhost:4000/items");
+        if (!buySellRes.ok)
+          throw new Error("Failed to fetch Buy & Sell entries");
         const buySellData = await buySellRes.json();
 
-        const travelRes = await fetch('http://localhost:4000/travel-items');
-        if (!travelRes.ok) throw new Error('Failed to fetch Travel & Carpool entries');
+        const travelRes = await fetch("http://localhost:4000/travel-items");
+        if (!travelRes.ok)
+          throw new Error("Failed to fetch Travel & Carpool entries");
         const travelData = await travelRes.json();
 
-        const localRecRes = await fetch('http://localhost:4000/local-recommendations');
-        if (!localRecRes.ok) throw new Error('Failed to fetch Local Recommendations');
+        const localRecRes = await fetch(
+          "http://localhost:4000/local-recommendations"
+        );
+        if (!localRecRes.ok)
+          throw new Error("Failed to fetch Local Recommendations");
         const localRecData = await localRecRes.json();
 
-        const eventRes = await fetch('http://localhost:4000/event-interest-groups');
-        if (!eventRes.ok) throw new Error('Failed to fetch Event & Interest Groups');
+        const eventRes = await fetch(
+          "http://localhost:4000/event-interest-groups"
+        );
+        if (!eventRes.ok)
+          throw new Error("Failed to fetch Event & Interest Groups");
         const eventData = await eventRes.json();
 
-        const skillSwapRes = await fetch('http://localhost:4000/skill-swap-mentorship');
-        if (!skillSwapRes.ok) throw new Error('Failed to fetch Skill Swap & Mentorship');
+        const skillSwapRes = await fetch(
+          "http://localhost:4000/skill-swap-mentorship"
+        );
+        if (!skillSwapRes.ok)
+          throw new Error("Failed to fetch Skill Swap & Mentorship");
         const skillSwapData = await skillSwapRes.json();
 
         setBuySellEntries(buySellData);
@@ -50,10 +61,10 @@ const Dashboard = () => {
   }, []);
 
   if (loading) return <p>Loading dashboard entries...</p>;
-  if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
+  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: "20px" }}>
       <h2>User Dashboard</h2>
       <section>
         <h3>Buy & Sell</h3>
@@ -61,7 +72,7 @@ const Dashboard = () => {
           <p>No entries found.</p>
         ) : (
           <ul>
-            {buySellEntries.map(item => (
+            {buySellEntries.map((item) => (
               <li key={item.id}>
                 <strong>{item.title}</strong>: {item.description}
               </li>
@@ -75,7 +86,7 @@ const Dashboard = () => {
           <p>No entries found.</p>
         ) : (
           <ul>
-            {travelCarpoolEntries.map(item => (
+            {travelCarpoolEntries.map((item) => (
               <li key={item.id}>
                 <p>From: {item.travelFrom}</p>
                 <p>To: {item.travelTo}</p>
@@ -92,7 +103,7 @@ const Dashboard = () => {
           <p>No entries found.</p>
         ) : (
           <ul>
-            {localRecommendations.map(item => (
+            {localRecommendations.map((item) => (
               <li key={item.id}>{item.description}</li>
             ))}
           </ul>
@@ -104,7 +115,7 @@ const Dashboard = () => {
           <p>No entries found.</p>
         ) : (
           <ul>
-            {eventInterestGroups.map(item => (
+            {eventInterestGroups.map((item) => (
               <li key={item.id}>{item.description}</li>
             ))}
           </ul>
@@ -116,7 +127,7 @@ const Dashboard = () => {
           <p>No entries found.</p>
         ) : (
           <ul>
-            {skillSwapMentorship.map(item => (
+            {skillSwapMentorship.map((item) => (
               <li key={item.id}>{item.description}</li>
             ))}
           </ul>

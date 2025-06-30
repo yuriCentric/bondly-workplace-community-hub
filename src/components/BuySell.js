@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const BuySell = () => {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState({
-    title: '',
-    description: '',
-    price: '',
+    title: "",
+    description: "",
+    price: "",
     pics: [],
-    address: '',
-    city: '',
-    category: '',
+    address: "",
+    city: "",
+    category: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,8 +17,8 @@ const BuySell = () => {
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:4000/items');
-      if (!response.ok) throw new Error('Failed to fetch items');
+      const response = await fetch("http://localhost:4000/items");
+      if (!response.ok) throw new Error("Failed to fetch items");
       const data = await response.json();
       setItems(data);
     } catch (err) {
@@ -40,7 +40,7 @@ const BuySell = () => {
   const handlePicsChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 3) {
-      setError('You can upload a maximum of 3 images.');
+      setError("You can upload a maximum of 3 images.");
       return;
     }
     setError(null);
@@ -60,32 +60,32 @@ const BuySell = () => {
         setForm((prevForm) => ({ ...prevForm, pics: base64Pics }));
       })
       .catch(() => {
-        setError('Failed to read one or more image files');
+        setError("Failed to read one or more image files");
       });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.title.trim() === '') return;
+    if (form.title.trim() === "") return;
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('http://localhost:4000/items', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:4000/items", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!response.ok) throw new Error('Failed to add item');
+      if (!response.ok) throw new Error("Failed to add item");
       const newItem = await response.json();
       setItems([...items, newItem]);
       setForm({
-        title: '',
-        description: '',
-        price: '',
+        title: "",
+        description: "",
+        price: "",
         pics: [],
-        address: '',
-        city: '',
-        category: '',
+        address: "",
+        city: "",
+        category: "",
       });
     } catch (err) {
       setError(err.message);
@@ -98,9 +98,10 @@ const BuySell = () => {
     <section>
       <h2>Buy & Sell Marketplace</h2>
       <p>
-        A company-only marketplace to exchange second-hand items like electronics, furniture, or books—safe, simple, and internal.
+        A company-only marketplace to exchange second-hand items like
+        electronics, furniture, or books—safe, simple, and internal.
       </p>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -137,7 +138,7 @@ const BuySell = () => {
           disabled={loading}
         />
         <small>Upload up to 3 images</small>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <input
           type="text"
           name="address"
@@ -154,7 +155,15 @@ const BuySell = () => {
           onChange={handleChange}
           disabled={loading}
         />
-        <label htmlFor="category" style={{ display: 'block', marginTop: '10px', marginBottom: '5px', fontWeight: 'bold' }}>
+        <label
+          htmlFor="category"
+          style={{
+            display: "block",
+            marginTop: "10px",
+            marginBottom: "5px",
+            fontWeight: "bold",
+          }}
+        >
           Category
         </label>
         <select
@@ -165,12 +174,12 @@ const BuySell = () => {
           disabled={loading}
           required
           style={{
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            width: '100%',
-            maxWidth: '300px',
-            fontSize: '16px',
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            width: "100%",
+            maxWidth: "300px",
+            fontSize: "16px",
           }}
         >
           <option value="" disabled>
@@ -183,7 +192,7 @@ const BuySell = () => {
           <option value="Other">Other</option>
         </select>
         <button type="submit" disabled={loading}>
-          {loading ? 'Saving...' : 'Add Item'}
+          {loading ? "Saving..." : "Add Item"}
         </button>
       </form>
       {loading && items.length === 0 ? (
@@ -191,7 +200,7 @@ const BuySell = () => {
       ) : (
         <ul className="item-list">
           {items.map((item) => (
-            <li key={item.id}>
+            <li key={item._id}>
               <strong>{item.title}</strong>
               <p>{item.description}</p>
               {item.price && <p>Price: ${item.price}</p>}
@@ -205,27 +214,45 @@ const BuySell = () => {
                       key={index}
                       src={pic}
                       alt={`Item pic ${index + 1}`}
-                      style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '5px' }}
+                      style={{
+                        maxWidth: "100px",
+                        maxHeight: "100px",
+                        marginRight: "5px",
+                      }}
                     />
                   ))}
                 </div>
               )}
               <button
                 onClick={async () => {
-                  if (window.confirm('Are you sure you want to delete this item?')) {
+                  if (
+                    window.confirm("Are you sure you want to delete this item?")
+                  ) {
                     try {
-                      const response = await fetch(`http://localhost:4000/items/${item.id}`, {
-                        method: 'DELETE',
-                      });
-                      if (!response.ok) throw new Error('Failed to delete item');
-                      setItems(items.filter(i => i.id !== item.id));
+                      const response = await fetch(
+                        `http://localhost:4000/items/${item._id}`,
+                        {
+                          method: "DELETE",
+                        }
+                      );
+                      if (!response.ok)
+                        throw new Error("Failed to delete item");
+                      setItems(items.filter((i) => i._id !== item._id));
                     } catch (err) {
                       setError(err.message);
                     }
                   }
                 }}
                 disabled={loading}
-                style={{ marginTop: '5px', backgroundColor: '#ff4d4f', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '3px', cursor: 'pointer' }}
+                style={{
+                  marginTop: "5px",
+                  backgroundColor: "#ff4d4f",
+                  color: "white",
+                  border: "none",
+                  padding: "5px 10px",
+                  borderRadius: "3px",
+                  cursor: "pointer",
+                }}
               >
                 Delete
               </button>
