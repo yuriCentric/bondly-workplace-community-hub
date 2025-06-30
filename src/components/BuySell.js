@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const BuySell = () => {
-  const [items, setItems] = useState([]);
+export function BuySell() {
+  const id = useParams().id;
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -13,24 +15,6 @@ const BuySell = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const fetchItems = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch("http://localhost:4000/items");
-      if (!response.ok) throw new Error("Failed to fetch items");
-      const data = await response.json();
-      setItems(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -70,23 +54,18 @@ const BuySell = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:4000/items", {
-        method: "POST",
+      const url = id
+        ? `http://localhost:4000/items/${id}`
+        : "http://localhost:4000/items";
+      const method = id ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method: method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
       if (!response.ok) throw new Error("Failed to add item");
-      const newItem = await response.json();
-      setItems([...items, newItem]);
-      setForm({
-        title: "",
-        description: "",
-        price: "",
-        pics: [],
-        address: "",
-        city: "",
-        category: "",
-      });
+      navigate("/buy-sell");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -94,15 +73,61 @@ const BuySell = () => {
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      const fetchItem = async () => {
+        try {
+          const response = await fetch(`http://localhost:4000/items/${id}`);
+          if (!response.ok) throw new Error("Failed to fetch item");
+          const item = await response.json();
+          setForm(item);
+        } catch (err) {
+          setError(err.message);
+        }
+      };
+      fetchItem();
+    }
+  }, [id]);
+
   return (
-    <section>
-      <h2>Buy & Sell Marketplace</h2>
-      <p>
-        A company-only marketplace to exchange second-hand items like
-        electronics, furniture, or books—safe, simple, and internal.
-      </p>
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2 style={{ margin: 0 }}>
+          {id ? "Edit Buy/Sell Item" : "Add New Buy/Sell Item"}
+        </h2>
+        <button
+          type="button"
+          onClick={() => navigate("/buy-sell")}
+          style={{
+            backgroundColor: "#f44336",
+            color: "white",
+            border: "none",
+            padding: "10px 15px",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Back
+        </button>
+      </div>
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
       <form onSubmit={handleSubmit}>
+        <label
+          htmlFor="title"
+          style={{
+            display: "block",
+            marginBottom: "5px",
+            fontWeight: "bold",
+          }}
+        >
+          Item Title
+        </label>
         <input
           type="text"
           name="title"
@@ -112,6 +137,17 @@ const BuySell = () => {
           required
           disabled={loading}
         />
+        <label
+          htmlFor="description"
+          style={{
+            display: "block",
+            marginTop: "10px",
+            marginBottom: "5px",
+            fontWeight: "bold",
+          }}
+        >
+          Item Description
+        </label>
         <textarea
           name="description"
           placeholder="Item description"
@@ -119,6 +155,17 @@ const BuySell = () => {
           onChange={handleChange}
           disabled={loading}
         />
+        <label
+          htmlFor="price"
+          style={{
+            display: "block",
+            marginTop: "10px",
+            marginBottom: "5px",
+            fontWeight: "bold",
+          }}
+        >
+          Price (optional)
+        </label>
         <input
           type="number"
           name="price"
@@ -139,6 +186,17 @@ const BuySell = () => {
         />
         <small>Upload up to 3 images</small>
         {error && <p style={{ color: "red" }}>{error}</p>}
+        <label
+          htmlFor="address"
+          style={{
+            display: "block",
+            marginTop: "10px",
+            marginBottom: "5px",
+            fontWeight: "bold",
+          }}
+        >
+          Address (optional)
+        </label>
         <input
           type="text"
           name="address"
@@ -147,6 +205,17 @@ const BuySell = () => {
           onChange={handleChange}
           disabled={loading}
         />
+        <label
+          htmlFor="city"
+          style={{
+            display: "block",
+            marginTop: "10px",
+            marginBottom: "5px",
+            fontWeight: "bold",
+          }}
+        >
+          City
+        </label>
         <input
           type="text"
           name="city"
@@ -192,76 +261,9 @@ const BuySell = () => {
           <option value="Other">Other</option>
         </select>
         <button type="submit" disabled={loading}>
-          {loading ? "Saving..." : "Add Item"}
+          {loading ? "Saving..." : id ? "Save Item" : "Add Item"}
         </button>
       </form>
-      {loading && items.length === 0 ? (
-        <p>Loading items...</p>
-      ) : (
-        <ul className="item-list">
-          {items.map((item) => (
-            <li key={item._id}>
-              <strong>{item.title}</strong>
-              <p>{item.description}</p>
-              {item.price && <p>Price: ${item.price}</p>}
-              {item.address && <p>Address: {item.address}</p>}
-              {item.city && <p>City: {item.city}</p>}
-              {item.category && <p>Category: {item.category}</p>}
-              {item.pics && item.pics.length > 0 && (
-                <div className="pics">
-                  {item.pics.slice(0, 3).map((pic, index) => (
-                    <img
-                      key={index}
-                      src={pic}
-                      alt={`Item pic ${index + 1}`}
-                      style={{
-                        maxWidth: "100px",
-                        maxHeight: "100px",
-                        marginRight: "5px",
-                      }}
-                    />
-                  ))}
-                </div>
-              )}
-              <button
-                onClick={async () => {
-                  if (
-                    window.confirm("Are you sure you want to delete this item?")
-                  ) {
-                    try {
-                      const response = await fetch(
-                        `http://localhost:4000/items/${item._id}`,
-                        {
-                          method: "DELETE",
-                        }
-                      );
-                      if (!response.ok)
-                        throw new Error("Failed to delete item");
-                      setItems(items.filter((i) => i._id !== item._id));
-                    } catch (err) {
-                      setError(err.message);
-                    }
-                  }
-                }}
-                disabled={loading}
-                style={{
-                  marginTop: "5px",
-                  backgroundColor: "#ff4d4f",
-                  color: "white",
-                  border: "none",
-                  padding: "5px 10px",
-                  borderRadius: "3px",
-                  cursor: "pointer",
-                }}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+    </>
   );
-};
-
-export default BuySell;
+}
