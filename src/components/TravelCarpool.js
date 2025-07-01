@@ -14,9 +14,9 @@ const TravelCarpool = () => {
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:4000/travel-items");
-      if (!response.ok) throw new Error("Failed to fetch travel items");
-      const data = await response.json();
+      const res = await fetch("http://localhost:4000/travel-items");
+      if (!res.ok) throw new Error("Failed to fetch travel items");
+      const data = await res.json();
       setItems(data);
     } catch (err) {
       setError(err.message);
@@ -39,13 +39,13 @@ const TravelCarpool = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:4000/travel-items", {
+      const res = await fetch("http://localhost:4000/travel-items", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!response.ok) throw new Error("Failed to add travel item");
-      const newItem = await response.json();
+      if (!res.ok) throw new Error("Failed to add travel item");
+      const newItem = await res.json();
       setItems([...items, newItem]);
       setForm({
         travelFrom: "",
@@ -60,76 +60,129 @@ const TravelCarpool = () => {
     }
   };
 
+  // Inline styles using CSS Grid and Flexbox
+  const styles = {
+    section: { padding: "2rem", fontFamily: "sans-serif" },
+    form: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+      gap: "1rem",
+      maxWidth: "800px",
+      margin: "0 auto 2rem",
+      alignItems: "end",
+    },
+    input: {
+      padding: "0.5rem",
+      fontSize: "1rem",
+      width: "100%",
+      boxSizing: "border-box",
+    },
+    button: {
+      gridColumn: "1 / -1",
+      padding: "0.75rem",
+      fontSize: "1rem",
+      background: "#007bff",
+      color: "#fff",
+      border: "none",
+      cursor: "pointer",
+    },
+    error: { color: "red", marginBottom: "1rem", textAlign: "center" },
+    grid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+      gap: "1rem",
+    },
+    card: {
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+      padding: "1rem",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+    },
+    deleteBtn: {
+      marginTop: "1rem",
+      padding: "0.5rem",
+      background: "#dc3545",
+      color: "#fff",
+      border: "none",
+      cursor: "pointer",
+    },
+  };
+
   return (
-    <section>
+    <section style={styles.section}>
       <h2>Travel & Carpooling</h2>
       <p>
         Plan travel with colleagues for office visits or offsites. Find and
         offer carpool options to save time and cost.
       </p>
-      {error && <p className="form-error">Error: {error}</p>}
-      <form onSubmit={handleSubmit} className="modern-form">
-        <div className="form-group">
-          <input
-            type="text"
-            name="travelFrom"
-            placeholder="Travel from"
-            value={form.travelFrom}
-            onChange={handleChange}
-            required
-            disabled={loading}
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            name="travelTo"
-            placeholder="Travel to"
-            value={form.travelTo}
-            onChange={handleChange}
-            required
-            disabled={loading}
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="date"
-            name="date"
-            placeholder="Date"
-            value={form.date}
-            onChange={handleChange}
-            disabled={loading}
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="number"
-            name="numberOfPassengers"
-            placeholder="Number of passengers"
-            value={form.numberOfPassengers}
-            onChange={handleChange}
-            min="1"
-            disabled={loading}
-            className="form-input"
-          />
-        </div>
-        <button type="submit" disabled={loading} className="form-button">
+
+      {error && <p style={styles.error}>Error: {error}</p>}
+
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <input
+          type="text"
+          name="travelFrom"
+          placeholder="Travel from"
+          value={form.travelFrom}
+          onChange={handleChange}
+          required
+          disabled={loading}
+          style={styles.input}
+        />
+        <input
+          type="text"
+          name="travelTo"
+          placeholder="Travel to"
+          value={form.travelTo}
+          onChange={handleChange}
+          required
+          disabled={loading}
+          style={styles.input}
+        />
+        <input
+          type="date"
+          name="date"
+          placeholder="Date"
+          value={form.date}
+          onChange={handleChange}
+          disabled={loading}
+          style={styles.input}
+        />
+        <input
+          type="number"
+          name="numberOfPassengers"
+          placeholder="Number of passengers"
+          value={form.numberOfPassengers}
+          onChange={handleChange}
+          min="1"
+          disabled={loading}
+          style={styles.input}
+        />
+        <button type="submit" disabled={loading} style={styles.button}>
           {loading ? "Saving..." : "Add Travel/Carpool"}
         </button>
       </form>
+
       {loading && items.length === 0 ? (
         <p>Loading travel items...</p>
       ) : (
-        <ul className="item-grid">
+        <div style={styles.grid}>
           {items.map((item) => (
-            <li key={item.id} className="item-card">
-              <p>From: {item.travelFrom}</p>
-              <p>To: {item.travelTo}</p>
-              <p>Date: {item.date}</p>
-              <p>Passengers: {item.numberOfPassengers}</p>
+            <div key={item._id} style={styles.card}>
+              <p>
+                <strong>From:</strong> {item.travelFrom}
+              </p>
+              <p>
+                <strong>To:</strong> {item.travelTo}
+              </p>
+              <p>
+                <strong>Date:</strong> {item.date}
+              </p>
+              <p>
+                <strong>Passengers:</strong> {item.numberOfPassengers}
+              </p>
               <button
                 onClick={async () => {
                   if (
@@ -138,13 +191,11 @@ const TravelCarpool = () => {
                     )
                   ) {
                     try {
-                      const response = await fetch(
+                      const res = await fetch(
                         `http://localhost:4000/travel-items/${item._id}`,
-                        {
-                          method: "DELETE",
-                        }
+                        { method: "DELETE" }
                       );
-                      if (!response.ok)
+                      if (!res.ok)
                         throw new Error("Failed to delete travel item");
                       setItems(items.filter((i) => i._id !== item._id));
                     } catch (err) {
@@ -153,13 +204,13 @@ const TravelCarpool = () => {
                   }
                 }}
                 disabled={loading}
-                className="delete-button"
+                style={styles.deleteBtn}
               >
                 Delete
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </section>
   );

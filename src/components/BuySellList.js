@@ -48,11 +48,9 @@ const BuySellList = () => {
     const email = "yuri.narang@centricconsulting.com";
     const itemUrl = `http://localhost:3000/buy-sell-add/${itemId}`;
     const message = `Hello, I am interested in the item [${itemName}](${itemUrl}).`;
-
     const teamsLink = `https://teams.microsoft.com/l/chat/0/0?users=${encodeURIComponent(
       email
     )}&message=${encodeURIComponent(message)}`;
-
     window.open(teamsLink, "_blank");
   };
 
@@ -87,7 +85,7 @@ const BuySellList = () => {
 
       <p>
         A company-only marketplace to exchange second-hand items like
-        electronics, furniture, or books—safe, simple, and internal.
+        electronics, furniture, or books—safe, simple, internal.
       </p>
 
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
@@ -103,17 +101,9 @@ const BuySellList = () => {
       {loading && items.length === 0 ? (
         <p>Loading items...</p>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul style={listGridStyle}>
           {items.map((item) => (
-            <li
-              key={item._id}
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: "5px",
-                padding: "15px",
-                marginBottom: "15px",
-              }}
-            >
+            <li key={item._id} style={cardStyle}>
               <strong>{item.title}</strong>
               <p>{item.description}</p>
               {item.price && (
@@ -212,7 +202,22 @@ const BuySellList = () => {
   );
 };
 
-// 🔹 Styles
+const listGridStyle = {
+  listStyle: "none",
+  padding: 0,
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+  gap: "15px",
+};
+
+const cardStyle = {
+  border: "1px solid #ddd",
+  borderRadius: "5px",
+  padding: "15px",
+  display: "flex",
+  flexDirection: "column",
+};
+
 const headerStyle = {
   display: "flex",
   justifyContent: "space-between",
