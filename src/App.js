@@ -177,7 +177,7 @@ const App = () => {
           <LoginMenu onLoginChange={setIsLoggedIn} />
         </div>
       </header>
-      <main>
+      <main style={{ backgroundColor: '#f0f4f8', minHeight: '100vh', padding: '40px 0' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route

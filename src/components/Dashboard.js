@@ -64,17 +64,35 @@ const Dashboard = () => {
   if (error) return <p className="form-error">Error: {error}</p>;
 
   return (
-    <div className="dashboard-grid" style={{ padding: "20px" }}>
-      <h2>User Dashboard</h2>
-      <div className="dashboard-tile">
+    <div
+      className="dashboard-grid"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+        gap: "24px",
+        padding: "20px",
+      }}
+    >
+      <div
+        className="dashboard-tile"
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "20px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "200px",
+        }}
+      >
         <section>
-          <h3>Buy & Sell</h3>
+          <h3 style={{ color: "#004080", marginBottom: "12px" }}>Buy & Sell</h3>
           {buySellEntries.length === 0 ? (
             <p>No entries found.</p>
           ) : (
-            <ul>
+            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
               {buySellEntries.map((item) => (
-                <li key={item.id}>
+                <li key={item.id} style={{ marginBottom: "8px" }}>
                   <strong>{item.title}</strong>: {item.description}
                 </li>
               ))}
@@ -82,15 +100,28 @@ const Dashboard = () => {
           )}
         </section>
       </div>
-      <div className="dashboard-tile">
+      <div
+        className="dashboard-tile"
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "20px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "200px",
+        }}
+      >
         <section>
-          <h3>Travel & Carpooling</h3>
+          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
+            Travel & Carpooling
+          </h3>
           {travelCarpoolEntries.length === 0 ? (
             <p>No entries found.</p>
           ) : (
-            <ul>
+            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
               {travelCarpoolEntries.map((item) => (
-                <li key={item.id}>
+                <li key={item.id} style={{ marginBottom: "8px" }}>
                   <p>From: {item.travelFrom}</p>
                   <p>To: {item.travelTo}</p>
                   <p>Date: {item.date}</p>
@@ -101,43 +132,88 @@ const Dashboard = () => {
           )}
         </section>
       </div>
-      <div className="dashboard-tile">
+      <div
+        className="dashboard-tile"
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "20px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "200px",
+        }}
+      >
         <section>
-          <h3>Local Recommendations</h3>
+          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
+            Local Recommendations
+          </h3>
           {localRecommendations.length === 0 ? (
             <p>No entries found.</p>
           ) : (
-            <ul>
+            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
               {localRecommendations.map((item) => (
-                <li key={item.id}>{item.description}</li>
+                <li key={item.id} style={{ marginBottom: "8px" }}>
+                  {item.description}
+                </li>
               ))}
             </ul>
           )}
         </section>
       </div>
-      <div className="dashboard-tile">
+      <div
+        className="dashboard-tile"
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "20px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "200px",
+        }}
+      >
         <section>
-          <h3>Event & Interest Groups</h3>
+          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
+            Event & Interest Groups
+          </h3>
           {eventInterestGroups.length === 0 ? (
             <p>No entries found.</p>
           ) : (
-            <ul>
+            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
               {eventInterestGroups.map((item) => (
-                <li key={item.id}>{item.description}</li>
+                <li key={item.id} style={{ marginBottom: "8px" }}>
+                  {item.description}
+                </li>
               ))}
             </ul>
           )}
         </section>
       </div>
-      <div className="dashboard-tile">
+      <div
+        className="dashboard-tile"
+        style={{
+          backgroundColor: "#ffffff",
+          padding: "20px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "200px",
+        }}
+      >
         <section>
-          <h3>Skill Swap & Mentorship</h3>
+          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
+            Skill Swap & Mentorship
+          </h3>
           {skillSwapMentorship.length === 0 ? (
             <p>No entries found.</p>
           ) : (
-            <ul>
+            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
               {skillSwapMentorship.map((item) => (
-                <li key={item.id}>{item.description}</li>
+                <li key={item.id} style={{ marginBottom: "8px" }}>
+                  {item.description}
+                </li>
               ))}
             </ul>
           )}
