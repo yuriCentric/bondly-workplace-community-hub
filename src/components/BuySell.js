@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export function BuySell() {
   const id = useParams().id;
   const navigate = useNavigate();
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -13,6 +14,7 @@ export function BuySell() {
     city: "",
     category: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -20,21 +22,19 @@ export function BuySell() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Handler for pics input to convert files to base64 and update form state
   const handlePicsChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 3) {
       setError("You can upload a maximum of 3 images.");
       return;
     }
+
     setError(null);
     Promise.all(
       files.map((file) => {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.onloadend = () => {
-            resolve(reader.result);
-          };
+          reader.onloadend = () => resolve(reader.result);
           reader.onerror = reject;
           reader.readAsDataURL(file);
         });
@@ -51,8 +51,10 @@ export function BuySell() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.title.trim() === "") return;
+
     setLoading(true);
     setError(null);
+
     try {
       const url = id
         ? `http://localhost:4000/items/${id}`
@@ -60,11 +62,12 @@ export function BuySell() {
       const method = id ? "PUT" : "POST";
 
       const response = await fetch(url, {
-        method: method,
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!response.ok) throw new Error("Failed to add item");
+
+      if (!response.ok) throw new Error("Failed to save item");
       navigate("/buy-sell");
     } catch (err) {
       setError(err.message);
@@ -90,12 +93,24 @@ export function BuySell() {
   }, [id]);
 
   return (
-    <>
+    <div
+      style={{
+        maxWidth: "700px",
+        margin: "30px auto",
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#fff",
+        border: "1px solid #ddd",
+        borderRadius: "8px",
+        boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
+      }}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          marginBottom: "20px",
         }}
       >
         <h2 style={{ margin: 0 }}>
@@ -116,18 +131,20 @@ export function BuySell() {
           Back
         </button>
       </div>
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label
-          htmlFor="title"
-          style={{
-            display: "block",
-            marginBottom: "5px",
-            fontWeight: "bold",
-          }}
-        >
-          Item Title
-        </label>
+
+      {error && (
+        <p style={{ color: "red", fontWeight: "bold" }}>Error: {error}</p>
+      )}
+
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        }}
+      >
+        <label style={{ fontWeight: "bold" }}>Item Title</label>
         <input
           type="text"
           name="title"
@@ -136,36 +153,20 @@ export function BuySell() {
           onChange={handleChange}
           required
           disabled={loading}
+          style={inputStyle}
         />
-        <label
-          htmlFor="description"
-          style={{
-            display: "block",
-            marginTop: "10px",
-            marginBottom: "5px",
-            fontWeight: "bold",
-          }}
-        >
-          Item Description
-        </label>
+
+        <label style={{ fontWeight: "bold" }}>Item Description</label>
         <textarea
           name="description"
           placeholder="Item description"
           value={form.description}
           onChange={handleChange}
           disabled={loading}
+          style={{ ...inputStyle, height: "100px", resize: "vertical" }}
         />
-        <label
-          htmlFor="price"
-          style={{
-            display: "block",
-            marginTop: "10px",
-            marginBottom: "5px",
-            fontWeight: "bold",
-          }}
-        >
-          Price (optional)
-        </label>
+
+        <label style={{ fontWeight: "bold" }}>Price (optional)</label>
         <input
           type="number"
           name="price"
@@ -175,7 +176,10 @@ export function BuySell() {
           disabled={loading}
           min="0"
           step="0.01"
+          style={inputStyle}
         />
+
+        <label style={{ fontWeight: "bold" }}>Upload Images</label>
         <input
           type="file"
           name="pics"
@@ -183,20 +187,13 @@ export function BuySell() {
           multiple
           onChange={handlePicsChange}
           disabled={loading}
+          style={{ marginBottom: "5px" }}
         />
-        <small>Upload up to 3 images</small>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <label
-          htmlFor="address"
-          style={{
-            display: "block",
-            marginTop: "10px",
-            marginBottom: "5px",
-            fontWeight: "bold",
-          }}
-        >
-          Address (optional)
-        </label>
+        <small style={{ color: "#666", marginBottom: "10px" }}>
+          Upload up to 3 images
+        </small>
+
+        <label style={{ fontWeight: "bold" }}>Address (optional)</label>
         <input
           type="text"
           name="address"
@@ -204,18 +201,10 @@ export function BuySell() {
           value={form.address}
           onChange={handleChange}
           disabled={loading}
+          style={inputStyle}
         />
-        <label
-          htmlFor="city"
-          style={{
-            display: "block",
-            marginTop: "10px",
-            marginBottom: "5px",
-            fontWeight: "bold",
-          }}
-        >
-          City
-        </label>
+
+        <label style={{ fontWeight: "bold" }}>City</label>
         <input
           type="text"
           name="city"
@@ -223,33 +212,17 @@ export function BuySell() {
           value={form.city}
           onChange={handleChange}
           disabled={loading}
+          style={inputStyle}
         />
-        <label
-          htmlFor="category"
-          style={{
-            display: "block",
-            marginTop: "10px",
-            marginBottom: "5px",
-            fontWeight: "bold",
-          }}
-        >
-          Category
-        </label>
+
+        <label style={{ fontWeight: "bold" }}>Category</label>
         <select
-          id="category"
           name="category"
           value={form.category}
           onChange={handleChange}
           disabled={loading}
           required
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            width: "100%",
-            maxWidth: "300px",
-            fontSize: "16px",
-          }}
+          style={inputStyle}
         >
           <option value="" disabled>
             Select category
@@ -260,10 +233,32 @@ export function BuySell() {
           <option value="Clothing">Clothing</option>
           <option value="Other">Other</option>
         </select>
-        <button type="submit" disabled={loading}>
+
+        <button
+          type="submit"
+          disabled={loading}
+          style={{
+            backgroundColor: "#4CAF50",
+            color: "white",
+            padding: "12px",
+            fontSize: "16px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            marginTop: "10px",
+          }}
+        >
           {loading ? "Saving..." : id ? "Save Item" : "Add Item"}
         </button>
       </form>
-    </>
+    </div>
   );
 }
+
+const inputStyle = {
+  padding: "10px",
+  borderRadius: "5px",
+  border: "1px solid #ccc",
+  fontSize: "16px",
+  width: "100%",
+};
