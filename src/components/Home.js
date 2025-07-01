@@ -1,4 +1,5 @@
 import React from 'react';
+import Dashboard from './Dashboard';
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
         <li>Event & Interest Groups: Create and join communities and events</li>
         <li>Skill Swap & Mentorship: Offer or request skill-sharing and mentorship</li>
       </ul>
+      <Dashboard />
     </section>
   );
 };
