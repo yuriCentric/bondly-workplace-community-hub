@@ -12,6 +12,7 @@ import BuySellList from "./components/BuySellList";
 import { BuySell } from "./components/BuySell";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
 import { useEffect } from "react";
+import TravelCarpoolAdd from "./components/TravelCarPoolAdd";
 
 const PrivateRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) return <Navigate to="/" replace />;
@@ -83,8 +84,7 @@ const App = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-          "Bearer YOUR_API_KEY_HERE", // Replace with your actual API key
+          Authorization: "", // Replace with your actual API key
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
@@ -128,11 +128,13 @@ const App = () => {
         <h1>Bondly – Your Workplace Community Hub</h1>
         <nav>
           <ul>
-            <li>
-              <NavLink to="/" end>
-                Home
-              </NavLink>
-            </li>
+            {isLoggedIn && (
+              <li>
+                <NavLink to="/" end>
+                  Home
+                </NavLink>
+              </li>
+            )}
             {isLoggedIn && (
               <>
                 <li>
@@ -177,7 +179,13 @@ const App = () => {
           <LoginMenu onLoginChange={setIsLoggedIn} />
         </div>
       </header>
-      <main style={{ backgroundColor: '#f0f4f8', minHeight: '100vh', padding: '40px 0' }}>
+      <main
+        style={{
+          backgroundColor: "#f0f4f8",
+          minHeight: "100vh",
+          padding: "40px 0",
+        }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -201,6 +209,14 @@ const App = () => {
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <TravelCarpool />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/travel-carpool/add/:id?"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <TravelCarpoolAdd />
               </PrivateRoute>
             }
           />
