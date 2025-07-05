@@ -181,7 +181,7 @@ const App = () => {
         }}
       >
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
           <Route
             path="/buy-sell"
             element={

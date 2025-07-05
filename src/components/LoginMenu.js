@@ -46,7 +46,6 @@ const LoginMenu = ({ onLoginChange }) => {
               gap: '10px',
               minWidth: '180px'
             }}>
-              <GoogleAuth onLoginChange={handleLoginChange} />
               <MicrosoftAuth onLoginChange={handleLoginChange} />
             </div>
           )}

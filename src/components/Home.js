@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dashboard from './Dashboard';
+import MicrosoftAuth from './MicrosoftAuth';
 
-const Home = () => {
+const Home = ({ isLoggedIn, setIsLoggedIn }) => {
+  const handleLoginChange = (loggedIn) => {
+    setIsLoggedIn(loggedIn);
+  };
+
   return (
     <section style={{
       backgroundColor: '#f0f4f8',
@@ -29,6 +34,11 @@ const Home = () => {
         <li>Event & Interest Groups: Create and join communities and events</li>
         <li>Skill Swap & Mentorship: Offer or request skill-sharing and mentorship</li>
       </ul>
+      {!isLoggedIn && (
+        <div style={{ marginBottom: '24px' }}>
+          <MicrosoftAuth onLoginChange={handleLoginChange} />
+        </div>
+      )}
       <Dashboard />
     </section>
   );
