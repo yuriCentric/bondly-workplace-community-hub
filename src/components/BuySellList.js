@@ -103,32 +103,97 @@ const BuySellList = () => {
       ) : (
         <ul style={listGridStyle}>
           {items.map((item) => (
-            <li key={item._id} style={cardStyle}>
-              <strong>{item.title}</strong>
-              <p>{item.description}</p>
-              {item.price && (
-                <p>
-                  <b>Price:</b> ${item.price}
-                </p>
-              )}
-              {item.address && (
-                <p>
-                  <b>Address:</b> {item.address}
-                </p>
-              )}
-              {item.city && (
-                <p>
-                  <b>City:</b> {item.city}
-                </p>
-              )}
-              {item.category && (
-                <p>
-                  <b>Category:</b> {item.category}
-                </p>
-              )}
+            <li
+              key={item._id}
+              style={{
+                ...cardStyle,
+                backgroundColor: "#f9f9f9",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                transition: "0.3s ease-in-out",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  borderBottom: "1px solid #eee",
+                }}
+              >
+                <strong style={{ fontSize: "20px", color: "#222" }}>
+                  {item.title}
+                </strong>
+                {item.price && (
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color: "#28a745",
+                      fontSize: "18px",
+                    }}
+                  >
+                    Rs. {item.price}
+                  </span>
+                )}
+              </div>
+
+              <p
+                style={{
+                  color: "#444",
+                  fontSize: "15px",
+                  lineHeight: "1.6",
+                }}
+              >
+                {item.description}
+              </p>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  rowGap: "10px",
+                  columnGap: "20px",
+                  marginBottom: "10px",
+                }}
+              >
+                {item.address && (
+                  <p style={{ margin: 0, color: "#555", fontSize: "14px" }}>
+                    <b>Address:</b> {item.address}
+                  </p>
+                )}
+                {item.city && (
+                  <p
+                    style={{
+                      margin: 0,
+                      textAlign: "right",
+                      color: "#555",
+                      fontSize: "14px",
+                    }}
+                  >
+                    <b>City:</b> {item.city}
+                  </p>
+                )}
+                {item.category && (
+                  <p
+                    style={{
+                      gridColumn: "1 / -1",
+                      textAlign: "center",
+                      color: "#666",
+                      fontSize: "14px",
+                    }}
+                  >
+                    <b>Category:</b> {item.category}
+                  </p>
+                )}
+              </div>
+
               {item.pics?.length > 0 && (
                 <div
-                  style={{ display: "flex", gap: "10px", marginTop: "10px" }}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "12px",
+                    marginBottom: "15px",
+                  }}
                 >
                   {item.pics.slice(0, 3).map((pic, index) => (
                     <img
@@ -136,28 +201,41 @@ const BuySellList = () => {
                       src={pic}
                       alt={`Item pic ${index + 1}`}
                       style={{
-                        maxWidth: "100px",
-                        maxHeight: "100px",
+                        width: "150px",
+                        height: "90px",
                         objectFit: "cover",
-                        borderRadius: "5px",
+                        borderRadius: "6px",
+                        border: "1px solid #ddd",
                       }}
                     />
                   ))}
                 </div>
               )}
-              <div style={{ marginTop: "10px" }}>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
                 <button
                   onClick={() => contactSeller(item._id, item.title)}
-                  style={{ ...buttonStyle, backgroundColor: "#007bff" }}
+                  style={{
+                    ...buttonStyle,
+                    backgroundColor: "#007bff",
+                    flex: "1 1 30%",
+                  }}
                 >
-                  Connect Seller
+                  Connect
                 </button>
                 <button
                   onClick={() => addEditItem(item._id)}
                   style={{
                     ...buttonStyle,
-                    backgroundColor: "#007bff",
-                    marginLeft: "10px",
+                    backgroundColor: "#17a2b8",
+                    flex: "1 1 30%",
                   }}
                 >
                   Edit
@@ -187,8 +265,8 @@ const BuySellList = () => {
                   disabled={loading}
                   style={{
                     ...buttonStyle,
-                    backgroundColor: "#ff4d4f",
-                    marginLeft: "10px",
+                    backgroundColor: "#dc3545",
+                    flex: "1 1 30%",
                   }}
                 >
                   Delete
@@ -216,6 +294,8 @@ const cardStyle = {
   padding: "15px",
   display: "flex",
   flexDirection: "column",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+  backgroundColor: "#fff",
 };
 
 const headerStyle = {

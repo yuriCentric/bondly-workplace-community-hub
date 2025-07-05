@@ -45,19 +45,24 @@ const TravelCarpool = () => {
     },
     card: {
       border: "1px solid #ddd",
-      borderRadius: "8px",
+      borderRadius: "10px",
       padding: "1rem",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
+      backgroundColor: "#fff",
+      transition: "0.3s ease",
     },
+
     deleteBtn: {
-      marginTop: "1rem",
-      padding: "0.5rem",
+      padding: "0.6rem",
       background: "#dc3545",
       color: "#fff",
       border: "none",
       cursor: "pointer",
+      borderRadius: "5px",
+      fontSize: "14px",
+      transition: "background 0.2s ease",
     },
   };
 
@@ -99,47 +104,112 @@ const TravelCarpool = () => {
         <p>Loading travel items...</p>
       ) : (
         <div style={styles.grid}>
-          {items.map((item) => (
-            <div key={item._id} style={styles.card}>
-              <p>
-                <strong>From:</strong> {item.travelFrom}
-              </p>
-              <p>
-                <strong>To:</strong> {item.travelTo}
-              </p>
-              <p>
-                <strong>Date:</strong> {item.date}
-              </p>
-              <p>
-                <strong>Passengers:</strong> {item.numberOfPassengers}
-              </p>
-              <button
-                onClick={async () => {
-                  if (
-                    window.confirm(
-                      "Are you sure you want to delete this travel item?"
-                    )
-                  ) {
-                    try {
-                      const res = await fetch(
-                        `http://localhost:4000/travel-items/${item._id}`,
-                        { method: "DELETE" }
-                      );
-                      if (!res.ok)
-                        throw new Error("Failed to delete travel item");
-                      setItems(items.filter((i) => i._id !== item._id));
-                    } catch (err) {
-                      setError(err.message);
-                    }
-                  }
+          {items.map((item) => {
+            const formattedDate = new Date(item.date).toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+
+            return (
+              <div
+                key={item._id}
+                style={{
+                  ...styles.card,
+                  backgroundColor: "#ffffff",
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+                  transition: "0.3s",
+                  border: "1px solid #eee",
                 }}
-                disabled={loading}
-                style={styles.deleteBtn}
               >
-                Delete
-              </button>
-            </div>
-          ))}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "12px",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    color: "#2c3e50",
+                  }}
+                >
+                  <div>
+                    <span style={{ color: "#555" }}>From:</span>{" "}
+                    {item.travelFrom}
+                  </div>
+                  <div>
+                    <span style={{ color: "#555" }}>To:</span> {item.travelTo}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                    fontSize: "14px",
+                    color: "#666",
+                  }}
+                >
+                  <span>
+                    <b>Date:</b> {formattedDate}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    textAlign: "center",
+                    fontSize: "14px",
+                    color: "#444",
+                    margin: "10px 0",
+                    padding: "8px 0",
+                    backgroundColor: "#f1f1f1",
+                    borderRadius: "6px",
+                    fontWeight: "bold",
+                  }}
+                >
+                   Passenger
+                  {item.numberOfPassengers > 1 ? "s" : ""}: {item.numberOfPassengers}
+                </div>
+
+                <button
+                  onClick={async () => {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this travel item?"
+                      )
+                    ) {
+                      try {
+                        const res = await fetch(
+                          `http://localhost:4000/travel-items/${item._id}`,
+                          { method: "DELETE" }
+                        );
+                        if (!res.ok)
+                          throw new Error("Failed to delete travel item");
+                        setItems(items.filter((i) => i._id !== item._id));
+                      } catch (err) {
+                        setError(err.message);
+                      }
+                    }
+                  }}
+                  disabled={loading}
+                  style={{
+                    ...styles.deleteBtn,
+                    borderRadius: "6px",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    marginTop: "1rem",
+                    background: "#e74c3c",
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </section>
