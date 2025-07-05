@@ -12,6 +12,7 @@ import BuySellList from "./components/BuySellList";
 import { BuySell } from "./components/BuySell";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
 import TravelCarpoolAdd from "./components/TravelCarPoolAdd";
+import MicrosoftAuth from "./components/MicrosoftAuth";
 
 const PrivateRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) return <Navigate to="/" replace />;
@@ -169,8 +170,30 @@ const App = () => {
             padding: "8px 12px",
             borderRadius: "8px",
             boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
           }}
         >
+          {!isLoggedIn ? (
+            <MicrosoftAuth onLoginChange={setIsLoggedIn} />
+          ) : (
+            <>
+              <span>Logged in</span>
+              <button
+                onClick={() => setIsLoggedIn(false)}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  border: "1px solid #ccc",
+                  backgroundColor: "#fff",
+                }}
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </header>
       <main

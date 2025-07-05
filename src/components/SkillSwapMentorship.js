@@ -7,7 +7,7 @@ export function SkillSwapMentorship() {
 
   const [form, setForm] = useState({
     skillName: "",
-    skillType: [],
+    skillType: "",
     intent: "Offer mentorship",
     proficiencyLevel: "Beginner",
     description: "",
@@ -149,13 +149,15 @@ export function SkillSwapMentorship() {
         <label style={{ fontWeight: "bold" }}>Skill Type</label>
         <select
           name="skillType"
-          multiple
           value={form.skillType}
           onChange={handleChange}
           disabled={loading}
           required
           style={inputStyle}
         >
+          <option value="" disabled>
+            Select skill type
+          </option>
           {skillTypes.map((type) => (
             <option key={type} value={type}>
               {type}

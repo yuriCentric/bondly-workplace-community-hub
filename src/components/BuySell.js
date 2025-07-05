@@ -228,6 +228,7 @@ export function BuySell() {
             Select category
           </option>
           <option value="Electronics">Electronics</option>
+          <option value="Car">Car</option>
           <option value="Furniture">Furniture</option>
           <option value="Books">Books</option>
           <option value="Clothing">Clothing</option>
