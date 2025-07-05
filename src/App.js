@@ -5,7 +5,7 @@ import Home from "./components/Home";
 import TravelCarpool from "./components/TravelCarpool";
 import LocalRecommendations from "./components/LocalRecommendations";
 import EventInterestGroups from "./components/EventInterestGroups";
-import SkillSwapMentorship from "./components/SkillSwapMentorship";
+import { SkillSwapMentorship } from "./components/SkillSwapMentorship";
 import LoginMenu from "./components/LoginMenu";
 import Dashboard from "./components/Dashboard";
 import BuySellList from "./components/BuySellList";
