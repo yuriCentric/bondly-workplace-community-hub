@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Routes, Route, NavLink, Navigate } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
@@ -6,12 +6,11 @@ import TravelCarpool from "./components/TravelCarpool";
 import LocalRecommendations from "./components/LocalRecommendations";
 import EventInterestGroups from "./components/EventInterestGroups";
 import { SkillSwapMentorship } from "./components/SkillSwapMentorship";
-import LoginMenu from "./components/LoginMenu";
+import SkillSwapList from "./components/SkillSwapList";
 import Dashboard from "./components/Dashboard";
 import BuySellList from "./components/BuySellList";
 import { BuySell } from "./components/BuySell";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
-import { useEffect } from "react";
 import TravelCarpoolAdd from "./components/TravelCarPoolAdd";
 
 const PrivateRoute = ({ isLoggedIn, children }) => {
@@ -27,7 +26,6 @@ const App = () => {
     { from: "bot", text: "Hello, I am Mr. Bondly! How can I help you today?" },
   ]);
   const [loading, setLoading] = useState(false);
-  // ⬇️ Add these inside App component
 
   const [travelItems, setTravelItems] = useState([]);
   const [buySellItems, setBuySellItems] = useState([]);
@@ -58,7 +56,6 @@ const App = () => {
   const callChatGPT = async (userMessage) => {
     setLoading(true);
 
-    // Dynamically format travel data
     const travelSummary = travelItems
       .map(
         (t) =>
@@ -68,7 +65,6 @@ const App = () => {
       )
       .join("; ");
 
-    // Dynamically format marketplace data
     const itemSummary = buySellItems
       .map(
         (i) =>
@@ -76,7 +72,6 @@ const App = () => {
       )
       .join("; ");
 
-    // Combine into system prompt
     const systemContext = `You are a helpful assistant. Here are current community travel and buy/sell listings:\n\nTravel:\n${travelSummary}\n\nBuy/Sell:\n${itemSummary}`;
 
     try {
@@ -176,7 +171,6 @@ const App = () => {
             boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
           }}
         >
-          <LoginMenu onLoginChange={setIsLoggedIn} />
         </div>
       </header>
       <main
@@ -238,6 +232,14 @@ const App = () => {
           />
           <Route
             path="/skill-swap-mentorship"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <SkillSwapList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/skill-swap-add/:id?"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <SkillSwapMentorship />

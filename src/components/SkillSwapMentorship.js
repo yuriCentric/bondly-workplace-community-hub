@@ -63,8 +63,8 @@ export function SkillSwapMentorship() {
 
     try {
       const url = id
-        ? `http://localhost:4000/skillSwapMentorship/${id}`
-        : "http://localhost:4000/skillSwapMentorship";
+        ? `http://localhost:4000/skill-swap-mentorship/${id}`
+        : "http://localhost:4000/skill-swap-mentorship";
       const method = id ? "PUT" : "POST";
 
       const response = await fetch(url, {
