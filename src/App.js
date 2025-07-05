@@ -139,11 +139,11 @@ const App = () => {
                 <li>
                   <NavLink to="/travel-carpool">Travel & Carpooling</NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink to="/local-recommendations">
                     Local Recommendations
                   </NavLink>
-                </li>
+                </li> */}
                 <li>
                   <NavLink to="/event-interest-groups">
                     Event & Interest Groups
