@@ -7,6 +7,7 @@ const SkillSwapList = () => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
+  const [interestedItems, setInterestedItems] = useState(new Set());
 
   const fetchItems = async () => {
     setLoading(true);
@@ -63,6 +64,24 @@ const SkillSwapList = () => {
       } catch (err) {
         setError(err.message);
       }
+    }
+  };
+
+  const handleInterest = async (itemId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/skill-swap-mentorship/${itemId}/interest`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userEmail: "yuri.narang@centricconsulting.com" }),
+        }
+      );
+      if (!response.ok) throw new Error("Failed to record interest");
+      setInterestedItems(new Set(interestedItems).add(itemId));
+      alert("Your interest has been recorded.");
+    } catch (err) {
+      alert(err.message);
     }
   };
 
@@ -181,6 +200,7 @@ const SkillSwapList = () => {
                   marginTop: "15px",
                   display: "flex",
                   justifyContent: "flex-end",
+                  gap: "10px",
                 }}
               >
                 <button
@@ -201,13 +221,30 @@ const SkillSwapList = () => {
                   style={{
                     ...buttonStyle,
                     backgroundColor: "#ff4d4f",
-                    marginLeft: "10px",
                     fontWeight: "bold",
                     fontSize: "14px",
                     padding: "8px 12px",
                   }}
                 >
                   Delete
+                </button>
+                <button
+                  onClick={() => handleInterest(item._id)}
+                  disabled={interestedItems.has(item._id)}
+                  style={{
+                    ...buttonStyle,
+                    backgroundColor: interestedItems.has(item._id)
+                      ? "#6c757d"
+                      : "#28a745",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    padding: "8px 12px",
+                    cursor: interestedItems.has(item._id)
+                      ? "not-allowed"
+                      : "pointer",
+                  }}
+                >
+                  {interestedItems.has(item._id) ? "Interested" : "I am interested"}
                 </button>
               </div>
             </li>
