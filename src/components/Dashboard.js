@@ -8,6 +8,57 @@ const Dashboard = () => {
   const [skillSwapMentorship, setSkillSwapMentorship] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const styles = {
+    card: {
+      backgroundColor: "#fff",
+      borderRadius: "12px",
+      boxShadow: "0 8px 20px rgba(0,0,0,0.06)",
+      padding: "24px",
+      transition: "transform 0.2s ease",
+    },
+    cardHeader: {
+      color: "#2c3e50",
+      fontSize: "18px",
+      marginBottom: "16px",
+      borderBottom: "1px solid #eaeaea",
+      paddingBottom: "8px",
+    },
+    emptyText: {
+      color: "#999",
+      fontStyle: "italic",
+    },
+    ul: {
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+    },
+    liItem: {
+      padding: "12px 16px",
+      border: "1px solid #eaeaea",
+      borderRadius: "8px",
+      backgroundColor: "#fafafa",
+      transition: "all 0.2s ease-in-out",
+    },
+    itemTitle: {
+      margin: 0,
+      fontWeight: "600",
+      fontSize: "16px",
+      color: "#333",
+    },
+    itemDesc: {
+      margin: "4px 0 0 0",
+      fontSize: "14px",
+      color: "#555",
+    },
+    itemLine: {
+      margin: "2px 0",
+      fontSize: "14px",
+      color: "#444",
+    },
+  };
 
   useEffect(() => {
     const fetchAllEntries = async () => {
@@ -65,165 +116,85 @@ const Dashboard = () => {
 
   return (
     <div
-      className="dashboard-grid"
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
         gap: "24px",
-        padding: "20px",
+        padding: "30px",
+        background: "#f0f2f5",
+        fontFamily: "'Segoe UI', sans-serif",
       }}
     >
-      <div
-        className="dashboard-tile"
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "200px",
-        }}
-      >
-        <section>
-          <h3 style={{ color: "#004080", marginBottom: "12px" }}>Buy & Sell</h3>
-          {buySellEntries.length === 0 ? (
-            <p>No entries found.</p>
+      {[
+        {
+          title: "Buy & Sell",
+          entries: buySellEntries,
+          render: (item) => (
+            <li style={styles.liItem}>
+              <h4 style={styles.itemTitle}>{item.title}</h4>
+              <p style={styles.itemDesc}>{item.description}</p>
+            </li>
+          ),
+        },
+        {
+          title: "Travel & Carpooling",
+          entries: travelCarpoolEntries,
+          render: (item) => (
+            <li style={styles.liItem}>
+              <p style={styles.itemLine}>
+                <b>From:</b> {item.travelFrom}
+              </p>
+              <p style={styles.itemLine}>
+                <b>To:</b> {item.travelTo}
+              </p>
+              <p style={styles.itemLine}>
+                <b>Date:</b> {item.date}
+              </p>
+              <p style={styles.itemLine}>
+                <b>Passengers:</b> {item.numberOfPassengers}
+              </p>
+            </li>
+          ),
+         },
+        // {
+        //   title: "Local Recommendations",
+        //   entries: localRecommendations,
+        //   render: (item) => (
+        //     <li style={styles.liItem}>
+        //       <p style={styles.itemDesc}>{item.description}</p>
+        //     </li>
+        //   ),
+        // },
+        {
+          title: "Event & Interest Groups",
+          entries: eventInterestGroups,
+          render: (item) => (
+            <li style={styles.liItem}>
+              <p style={styles.itemDesc}>{item.description}</p>
+            </li>
+          ),
+        },
+        {
+          title: "Skill Swap & Mentorship",
+          entries: skillSwapMentorship,
+          render: (item) => (
+            <li style={styles.liItem}>
+              <p style={styles.itemDesc}>{item.description}</p>
+            </li>
+          ),
+        },
+      ].map(({ title, entries, render }) => (
+        <div style={styles.card}>
+          <h3 style={styles.cardHeader}>{title}</h3>
+          {entries.length === 0 ? (
+            <p style={styles.emptyText}>No entries found.</p>
           ) : (
-            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {buySellEntries.slice(0, 5).map((item) => (
-                <li key={item.id} style={{ marginBottom: "8px" }}>
-                  <strong>{item.title}</strong>: {item.description}
-                </li>
-              ))}
+            <ul style={styles.ul}>
+              {entries.slice(0, 3).map((entry) => render(entry))}
             </ul>
           )}
-        </section>
-      </div>
-      <div
-        className="dashboard-tile"
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "200px",
-        }}
-      >
-        <section>
-          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
-            Travel & Carpooling
-          </h3>
-          {travelCarpoolEntries.length === 0 ? (
-            <p>No entries found.</p>
-          ) : (
-            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {travelCarpoolEntries.slice(0, 5).map((item) => (
-                <li
-                  key={item.id}
-                  style={{ marginBottom: "6px", fontSize: "14px" }}
-                >
-                  <strong>From:</strong> {item.travelFrom},<strong>To:</strong>{" "}
-                  {item.travelTo}
-                  <br />
-                  <strong>Date:</strong> {item.date},{" "}
-                  <strong>Passengers:</strong> {item.numberOfPassengers}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </div>
-      <div
-        className="dashboard-tile"
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "200px",
-          display: "none",
-        }}
-      >
-        <section>
-          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
-            Local Recommendations
-          </h3>
-          {localRecommendations.length === 0 ? (
-            <p>No entries found.</p>
-          ) : (
-            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {localRecommendations.slice(0, 5).map((item) => (
-                <li key={item.id} style={{ marginBottom: "8px" }}>
-                  {item.description}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </div>
-      <div
-        className="dashboard-tile"
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "200px",
-        }}
-      >
-        <section>
-          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
-            Event & Interest Groups
-          </h3>
-          {eventInterestGroups.length === 0 ? (
-            <p>No entries found.</p>
-          ) : (
-            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {eventInterestGroups.slice(0, 5).map((item) => (
-                <li key={item.id} style={{ marginBottom: "8px" }}>
-                  {item.description}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </div>
-      <div
-        className="dashboard-tile"
-        style={{
-          backgroundColor: "#ffffff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "200px",
-        }}
-      >
-        <section>
-          <h3 style={{ color: "#004080", marginBottom: "12px" }}>
-            Skill Swap & Mentorship
-          </h3>
-          {skillSwapMentorship.length === 0 ? (
-            <p>No entries found.</p>
-          ) : (
-            <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {skillSwapMentorship.slice(0, 5).map((item) => (
-                <li key={item.id} style={{ marginBottom: "8px" }}>
-                  {item.description}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

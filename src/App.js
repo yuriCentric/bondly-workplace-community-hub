@@ -14,6 +14,7 @@ import { FaComments, FaPaperPlane } from "react-icons/fa";
 import TravelCarpoolAdd from "./components/TravelCarPoolAdd";
 import MicrosoftAuth from "./components/MicrosoftAuth";
 import AddEventInterest from "./components/AddEventInterest";
+import { FiLogOut } from "react-icons/fi";
 
 const PrivateRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) return <Navigate to="/" replace />;
@@ -165,12 +166,8 @@ const App = () => {
         <div
           style={{
             float: "right",
-            marginRight: "20px",
             alignItems: "center",
-            backgroundColor: "#f0f0f0",
-            padding: "8px 12px",
             borderRadius: "8px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
             display: "flex",
             gap: "10px",
             alignItems: "center",
@@ -180,19 +177,31 @@ const App = () => {
             <MicrosoftAuth onLoginChange={setIsLoggedIn} />
           ) : (
             <>
-              <span>Logged in</span>
-              <button
-                onClick={() => setIsLoggedIn(false)}
+              <div
                 style={{
-                  padding: "8px 12px",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  border: "1px solid #ccc",
-                  backgroundColor: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#f9f9f9",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  fontFamily: "sans-serif",
                 }}
               >
-                Logout
-              </button>
+                <span style={{ fontWeight: "500", color: "#333" }}>
+                  ✅ Logged in
+                </span>
+                <FiLogOut
+                  onClick={() => setIsLoggedIn(false)}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "1.3rem",
+                    color: "#dc3545",
+                  }}
+                  title="Logout"
+                />
+              </div>{" "}
             </>
           )}
         </div>
@@ -346,7 +355,7 @@ const App = () => {
             textAlign: "center",
           }}
         >
-          Mr. Bondly Chatbot
+          Mr. Bondly - Your Assistant
         </div>
         <div
           style={{
