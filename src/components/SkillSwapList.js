@@ -29,7 +29,7 @@ const SkillSwapList = () => {
   }, []);
 
   const addEditItem = (id) => {
-    navigate(`/skill-swap-add/${id || ""}`);
+    navigate(`/skill-swap-mentorship/add/${id || ""}`);
   };
 
   const handleSearch = (term) => {

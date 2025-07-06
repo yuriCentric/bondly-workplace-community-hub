@@ -13,6 +13,7 @@ import { BuySell } from "./components/BuySell";
 import { FaComments, FaPaperPlane } from "react-icons/fa";
 import TravelCarpoolAdd from "./components/TravelCarPoolAdd";
 import MicrosoftAuth from "./components/MicrosoftAuth";
+import AddEventInterest from "./components/AddEventInterest";
 
 const PrivateRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) return <Navigate to="/" replace />;
@@ -80,7 +81,7 @@ const App = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "", // Replace with your actual API key
+          Authorization: `${process.env.REACT_APP_OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
@@ -204,7 +205,12 @@ const App = () => {
         }}
       >
         <Routes>
-          <Route path="/" element={<Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/"
+            element={
+              <Home isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            }
+          />
           <Route
             path="/buy-sell"
             element={
@@ -214,7 +220,7 @@ const App = () => {
             }
           />
           <Route
-            path="/buy-sell-add/:id?"
+            path="/buy-sell/add/:id?"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <BuySell />
@@ -254,6 +260,14 @@ const App = () => {
             }
           />
           <Route
+            path="/event-interest-groups/add/:id?"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <AddEventInterest />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="/skill-swap-mentorship"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
@@ -262,7 +276,7 @@ const App = () => {
             }
           />
           <Route
-            path="/skill-swap-add/:id?"
+            path="/skill-swap-mentorship/add/:id?"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <SkillSwapMentorship />

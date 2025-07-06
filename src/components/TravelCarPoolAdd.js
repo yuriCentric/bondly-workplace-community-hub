@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const TravelCarpoolAdd = () => {
   const navigate = useNavigate();
   const id = useParams().id;
+
   const [items, setItems] = useState([]);
   const [form, setForm] = useState({
     travelFrom: "",
@@ -13,9 +14,33 @@ const TravelCarpoolAdd = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [fromOffice, setFromOffice] = useState(false);
+  const [toOffice, setToOffice] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleOfficeToggle = (field) => {
+    if (field === "from") {
+      const isChecked = !fromOffice;
+      setFromOffice(isChecked);
+      setToOffice(false);
+      setForm({
+        ...form,
+        travelFrom: isChecked ? "Gurgaon Office" : "",
+        travelTo: isChecked ? form.travelTo : form.travelTo,
+      });
+    } else if (field === "to") {
+      const isChecked = !toOffice;
+      setToOffice(isChecked);
+      setFromOffice(false);
+      setForm({
+        ...form,
+        travelTo: isChecked ? "Gurgaon Office" : "",
+        travelFrom: isChecked ? form.travelFrom : form.travelFrom,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -38,6 +63,8 @@ const TravelCarpoolAdd = () => {
         date: "",
         numberOfPassengers: "",
       });
+      setFromOffice(false);
+      setToOffice(false);
       navigate("/travel-carpool");
     } catch (err) {
       setError(err.message);
@@ -105,12 +132,18 @@ const TravelCarpoolAdd = () => {
 
       <form
         onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}
+        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
+        <label>
+          <input
+            type="checkbox"
+            checked={fromOffice}
+            disabled={toOffice}
+            onChange={() => handleOfficeToggle("from")}
+            style={{ marginRight: "6px" }}
+          />
+          From Office
+        </label>
         <input
           type="text"
           name="travelFrom"
@@ -118,16 +151,20 @@ const TravelCarpoolAdd = () => {
           value={form.travelFrom}
           onChange={handleChange}
           required
-          disabled={loading}
-          style={{
-            padding: "10px",
-            fontSize: "1rem",
-            width: "100%",
-            boxSizing: "border-box",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
+          disabled={fromOffice || loading}
+          style={inputStyle}
         />
+
+        <label>
+          <input
+            type="checkbox"
+            checked={toOffice}
+            disabled={fromOffice}
+            onChange={() => handleOfficeToggle("to")}
+            style={{ marginRight: "6px" }}
+          />
+          To Office
+        </label>
         <input
           type="text"
           name="travelTo"
@@ -135,30 +172,17 @@ const TravelCarpoolAdd = () => {
           value={form.travelTo}
           onChange={handleChange}
           required
-          disabled={loading}
-          style={{
-            padding: "10px",
-            fontSize: "1rem",
-            width: "100%",
-            boxSizing: "border-box",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
+          disabled={toOffice || loading}
+          style={inputStyle}
         />
+
         <input
           type="date"
           name="date"
           value={form.date}
           onChange={handleChange}
           disabled={loading}
-          style={{
-            padding: "10px",
-            fontSize: "1rem",
-            width: "100%",
-            boxSizing: "border-box",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
+          style={inputStyle}
         />
         <input
           type="number"
@@ -168,14 +192,7 @@ const TravelCarpoolAdd = () => {
           onChange={handleChange}
           min="1"
           disabled={loading}
-          style={{
-            padding: "10px",
-            fontSize: "1rem",
-            width: "100%",
-            boxSizing: "border-box",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
+          style={inputStyle}
         />
         <button
           type="submit"
@@ -195,6 +212,15 @@ const TravelCarpoolAdd = () => {
       </form>
     </section>
   );
+};
+
+const inputStyle = {
+  padding: "10px",
+  fontSize: "1rem",
+  width: "100%",
+  boxSizing: "border-box",
+  borderRadius: "4px",
+  border: "1px solid #ccc",
 };
 
 export default TravelCarpoolAdd;

@@ -27,7 +27,7 @@ const BuySellList = () => {
   }, []);
 
   const addEditItem = (id) => {
-    navigate(`/buy-sell-add/${id || ""}`);
+    navigate(`/buy-sell/add/${id || ""}`);
   };
 
   const handleSearch = (term) => {
@@ -46,7 +46,7 @@ const BuySellList = () => {
 
   const contactSeller = (itemId, itemName) => {
     const email = "yuri.narang@centricconsulting.com";
-    const itemUrl = `http://localhost:3000/buy-sell-add/${itemId}`;
+    const itemUrl = `http://localhost:3000/buy-sell/add/${itemId}`;
     const message = `Hello, I am interested in the item [${itemName}](${itemUrl}).`;
     const teamsLink = `https://teams.microsoft.com/l/chat/0/0?users=${encodeURIComponent(
       email
@@ -323,7 +323,6 @@ const searchInputStyle = {
   padding: "8px 30px 8px 10px",
   borderRadius: "5px",
   border: "1px solid #ccc",
-  width: "100%",
 };
 
 const clearIconStyle = {

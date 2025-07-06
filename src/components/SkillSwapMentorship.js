@@ -24,17 +24,9 @@ export function SkillSwapMentorship() {
     "Language",
   ];
 
-  const intents = [
-    "Offer mentorship",
-    "Learn this skill",
-    "Both",
-  ];
+  const intents = ["Offer mentorship", "Learn this skill", "Both"];
 
-  const proficiencyLevels = [
-    "Beginner",
-    "Intermediate",
-    "Advanced",
-  ];
+  const proficiencyLevels = ["Beginner", "Intermediate", "Advanced"];
 
   const handleChange = (e) => {
     const { name, value, type, checked, options } = e.target;
@@ -74,7 +66,7 @@ export function SkillSwapMentorship() {
       });
 
       if (!response.ok) throw new Error("Failed to save skill swap item");
-      navigate("/skill-swap");
+      navigate("/skill-swap-mentorship");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -108,7 +100,7 @@ export function SkillSwapMentorship() {
         </h2>
         <button
           type="button"
-          onClick={() => navigate("/skill-swap")}
+          onClick={() => navigate("/skill-swap-mentorship")}
           style={{
             backgroundColor: "#f44336",
             color: "white",

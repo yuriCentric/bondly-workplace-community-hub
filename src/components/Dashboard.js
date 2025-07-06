@@ -91,7 +91,7 @@ const Dashboard = () => {
             <p>No entries found.</p>
           ) : (
             <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {buySellEntries.map((item) => (
+              {buySellEntries.slice(0, 5).map((item) => (
                 <li key={item.id} style={{ marginBottom: "8px" }}>
                   <strong>{item.title}</strong>: {item.description}
                 </li>
@@ -120,12 +120,16 @@ const Dashboard = () => {
             <p>No entries found.</p>
           ) : (
             <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {travelCarpoolEntries.map((item) => (
-                <li key={item.id} style={{ marginBottom: "8px" }}>
-                  <p>From: {item.travelFrom}</p>
-                  <p>To: {item.travelTo}</p>
-                  <p>Date: {item.date}</p>
-                  <p>Passengers: {item.numberOfPassengers}</p>
+              {travelCarpoolEntries.slice(0, 5).map((item) => (
+                <li
+                  key={item.id}
+                  style={{ marginBottom: "6px", fontSize: "14px" }}
+                >
+                  <strong>From:</strong> {item.travelFrom},<strong>To:</strong>{" "}
+                  {item.travelTo}
+                  <br />
+                  <strong>Date:</strong> {item.date},{" "}
+                  <strong>Passengers:</strong> {item.numberOfPassengers}
                 </li>
               ))}
             </ul>
@@ -142,6 +146,7 @@ const Dashboard = () => {
           display: "flex",
           flexDirection: "column",
           minHeight: "200px",
+          display: "none",
         }}
       >
         <section>
@@ -152,7 +157,7 @@ const Dashboard = () => {
             <p>No entries found.</p>
           ) : (
             <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {localRecommendations.map((item) => (
+              {localRecommendations.slice(0, 5).map((item) => (
                 <li key={item.id} style={{ marginBottom: "8px" }}>
                   {item.description}
                 </li>
@@ -181,7 +186,7 @@ const Dashboard = () => {
             <p>No entries found.</p>
           ) : (
             <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {eventInterestGroups.map((item) => (
+              {eventInterestGroups.slice(0, 5).map((item) => (
                 <li key={item.id} style={{ marginBottom: "8px" }}>
                   {item.description}
                 </li>
@@ -210,7 +215,7 @@ const Dashboard = () => {
             <p>No entries found.</p>
           ) : (
             <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
-              {skillSwapMentorship.map((item) => (
+              {skillSwapMentorship.slice(0, 5).map((item) => (
                 <li key={item.id} style={{ marginBottom: "8px" }}>
                   {item.description}
                 </li>
