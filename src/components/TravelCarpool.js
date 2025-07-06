@@ -175,38 +175,72 @@ const TravelCarpool = () => {
                   {item.numberOfPassengers > 1 ? "s" : ""}: {item.numberOfPassengers}
                 </div>
 
-                <button
-                  onClick={async () => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to delete this travel item?"
-                      )
-                    ) {
-                      try {
-                        const res = await fetch(
-                          `http://localhost:4000/travel-items/${item._id}`,
-                          { method: "DELETE" }
-                        );
-                        if (!res.ok)
-                          throw new Error("Failed to delete travel item");
-                        setItems(items.filter((i) => i._id !== item._id));
-                      } catch (err) {
-                        setError(err.message);
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
+                  <button
+                    onClick={() => navigate(`/travel-carpool/edit/${item._id}`)}
+                    disabled={loading}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#007bff",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => alert("Connect functionality to be implemented")}
+                    disabled={loading}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#28a745",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Connect
+                  </button>
+                  <button
+                    onClick={async () => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this travel item?"
+                        )
+                      ) {
+                        try {
+                          const res = await fetch(
+                            `http://localhost:4000/travel-items/${item._id}`,
+                            { method: "DELETE" }
+                          );
+                          if (!res.ok)
+                            throw new Error("Failed to delete travel item");
+                          setItems(items.filter((i) => i._id !== item._id));
+                        } catch (err) {
+                          setError(err.message);
+                        }
                       }
-                    }
-                  }}
-                  disabled={loading}
-                  style={{
-                    ...styles.deleteBtn,
-                    borderRadius: "6px",
-                    fontWeight: "600",
-                    fontSize: "14px",
-                    marginTop: "1rem",
-                    background: "#e74c3c",
-                  }}
-                >
-                  Delete
-                </button>
+                    }}
+                    disabled={loading}
+                    style={{
+                      ...styles.deleteBtn,
+                      borderRadius: "6px",
+                      fontWeight: "600",
+                      fontSize: "14px",
+                      marginTop: "0",
+                      background: "#e74c3c",
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             );
           })}

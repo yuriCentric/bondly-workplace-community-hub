@@ -49,14 +49,19 @@ const TravelCarpoolAdd = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:4000/travel-items", {
-        method: "POST",
+      const url = id
+        ? `http://localhost:4000/travel-items/${id}`
+        : "http://localhost:4000/travel-items";
+      const method = id ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error("Failed to add travel item");
+      if (!res.ok) throw new Error(id ? "Failed to update travel item" : "Failed to add travel item");
       const newItem = await res.json();
-      setItems([...items, newItem]);
+      setItems(id ? items.map(item => item._id === id ? newItem : item) : [...items, newItem]);
       setForm({
         travelFrom: "",
         travelTo: "",
@@ -77,9 +82,16 @@ const TravelCarpoolAdd = () => {
     setLoading(true);
     try {
       const res = await fetch(`http://localhost:4000/travel-items/${id}`);
-      if (!res.ok) throw new Error("Failed to fetch travel items");
+      if (!res.ok) throw new Error("Failed to fetch travel item");
       const data = await res.json();
-      setItems(data);
+      setForm({
+        travelFrom: data.travelFrom || "",
+        travelTo: data.travelTo || "",
+        date: data.date ? data.date.split("T")[0] : "",
+        numberOfPassengers: data.numberOfPassengers || "",
+      });
+      setFromOffice(data.travelFrom === "Gurgaon Office");
+      setToOffice(data.travelTo === "Gurgaon Office");
     } catch (err) {
       setError(err.message);
     } finally {
