@@ -35,11 +35,6 @@ const Home = ({ isLoggedIn, setIsLoggedIn }) => {
         <li>Event & Interest Groups: Create and join communities and events</li>
         <li>Skill Swap & Mentorship: Offer or request skill-sharing and mentorship</li>
       </ul>
-      {/* {!isLoggedIn && (
-        <div style={{ marginBottom: '24px' }}>
-          <MicrosoftAuth onLoginChange={handleLoginChange} />
-        </div>
-      )} */}
       <Dashboard />
     </section>
   );

@@ -156,9 +156,7 @@ const App = () => {
                     Skill Swap & Mentorship
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink to="/dashboard">Dashboard</NavLink>
-                </li>
+            
               </>
             )}
           </ul>
