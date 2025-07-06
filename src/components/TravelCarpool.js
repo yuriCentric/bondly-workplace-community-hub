@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const TravelCarpool = () => {
@@ -101,7 +102,13 @@ const TravelCarpool = () => {
       {error && <p style={styles.error}>Error: {error}</p>}
 
       {loading && items.length === 0 ? (
-        <p>Loading travel items...</p>
+        <div>
+          <FaSpinner
+            className="spin"
+            style={{ marginRight: "8px", color: "#004080" }}
+          />
+          <p>Loading travel items...</p>
+        </div>
       ) : (
         <div style={styles.grid}>
           {items.map((item) => {

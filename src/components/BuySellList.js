@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const BuySellList = () => {
@@ -99,7 +100,11 @@ const BuySellList = () => {
       )}
 
       {loading && items.length === 0 ? (
-        <p>Loading items...</p>
+        <div>
+          {" "}
+          <FaSpinner className="spin" style={{ marginRight: "8px",color:"#004080" }} />
+          <p>Loading items...</p>
+        </div>
       ) : (
         <ul style={listGridStyle}>
           {items.map((item) => (

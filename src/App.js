@@ -32,6 +32,8 @@ const App = () => {
 
   const [travelItems, setTravelItems] = useState([]);
   const [buySellItems, setBuySellItems] = useState([]);
+  const [eventItems, setEventItems] = useState([]);
+  const [skillItems, setSkillItems] = useState([]);
   const messagesEndRef = useRef(null);
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -48,6 +50,18 @@ const App = () => {
         const buySellRes = await fetch("http://localhost:4000/items");
         const buySellData = await buySellRes.json();
         setBuySellItems(buySellData);
+
+        const eventsRes = await fetch(
+          "http://localhost:4000/event-interest-groups"
+        );
+        const eventsData = await eventsRes.json();
+        setEventItems(eventsData);
+
+        const skillRes = await fetch(
+          "http://localhost:4000/skill-swap-mentorship"
+        );
+        const skillData = await skillRes.json();
+        setSkillItems(skillData);
       } catch (error) {
         console.error("Failed to fetch API data:", error);
       }
@@ -74,8 +88,35 @@ const App = () => {
           `${i.title} available in ${i.city} for ₹${i.price}. Description: ${i.description}`
       )
       .join("; ");
+    const eventSummary = eventItems
+      .map(
+        (e) =>
+          `${e.title} and description: ${e.description} on ${e.date} at ${e.time}, hosted by ${e.department}. Location: ${e.location}. Audience: ${e.audience}. Posted by ${e.postedBy}.`
+      )
+      .join("; ");
 
-    const systemContext = `You are a helpful assistant. Here are current community travel and buy/sell listings:\n\nTravel:\n${travelSummary}\n\nBuy/Sell:\n${itemSummary}`;
+    const skillSummary = skillItems
+      .map(
+        (s) =>
+          `${s.skillName} (${s.proficiency}) - ${s.intent}. ${s.description} [Type: ${s.skillType}]`
+      )
+      .join("; ");
+
+    const systemContext = `
+You are a helpful assistant. Here is the current community data:
+
+Travel Listings:
+${travelSummary}
+
+Buy/Sell Listings:
+${itemSummary}
+
+Events:
+${eventSummary}
+
+Skill Swap & Mentorship:
+${skillSummary}
+`;
 
     try {
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -156,7 +197,6 @@ const App = () => {
                     Skill Swap & Mentorship
                   </NavLink>
                 </li>
-            
               </>
             )}
           </ul>
@@ -383,6 +423,9 @@ const App = () => {
                       msg.from === "user" ? "#004080" : "#e0e0e0",
                     color: msg.from === "user" ? "#fff" : "#000",
                     maxWidth: "75%",
+                    wordWrap: "break-word", // ✅ wrap long words
+                    whiteSpace: "pre-wrap", // ✅ preserve line breaks
+                    overflowWrap: "break-word", // ✅ break overflow
                     border: isLast ? "2px solid #ff9800" : "none",
                     boxShadow: isLast
                       ? "0 0 8px rgba(255, 152, 0, 0.6)"

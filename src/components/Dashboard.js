@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 const Dashboard = () => {
   const [buySellEntries, setBuySellEntries] = useState([]);
@@ -111,7 +112,16 @@ const Dashboard = () => {
     fetchAllEntries();
   }, []);
 
-  if (loading) return <p>Loading dashboard entries...</p>;
+  if (loading)
+    return (
+      <div>
+        <FaSpinner
+          className="spin"
+          style={{ marginRight: "8px", color: "#004080" }}
+        />
+        <p>Loading dashboard entries...</p>
+      </div>
+    );
   if (error) return <p className="form-error">Error: {error}</p>;
 
   return (
@@ -155,7 +165,7 @@ const Dashboard = () => {
               </p>
             </li>
           ),
-         },
+        },
         // {
         //   title: "Local Recommendations",
         //   entries: localRecommendations,

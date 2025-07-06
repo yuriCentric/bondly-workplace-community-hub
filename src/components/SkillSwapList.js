@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const SkillSwapList = () => {
@@ -74,7 +75,9 @@ const SkillSwapList = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userEmail: "yuri.narang@centricconsulting.com" }),
+          body: JSON.stringify({
+            userEmail: "yuri.narang@centricconsulting.com",
+          }),
         }
       );
       if (!response.ok) throw new Error("Failed to record interest");
@@ -130,7 +133,13 @@ const SkillSwapList = () => {
       )}
 
       {loading && items.length === 0 ? (
-        <p>Loading skill swap items...</p>
+        <div>
+          <FaSpinner
+            className="spin"
+            style={{ marginRight: "8px", color: "#004080" }}
+          />
+          <p>Loading skill swap items...</p>
+        </div>
       ) : (
         <ul style={listGridStyle}>
           {items.map((item) => (
@@ -244,7 +253,9 @@ const SkillSwapList = () => {
                       : "pointer",
                   }}
                 >
-                  {interestedItems.has(item._id) ? "Interested" : "I am interested"}
+                  {interestedItems.has(item._id)
+                    ? "Interested"
+                    : "I am interested"}
                 </button>
               </div>
             </li>
