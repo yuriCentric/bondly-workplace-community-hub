@@ -183,6 +183,7 @@ const TravelCarpool = () => {
                 </div>
 
                 <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
+                      
                   <button
                     onClick={() => navigate(`/travel-carpool/edit/${item._id}`)}
                     disabled={loading}
@@ -199,22 +200,7 @@ const TravelCarpool = () => {
                   >
                     Edit
                   </button>
-                  <button
-                    onClick={() => alert("Connect functionality to be implemented")}
-                    disabled={loading}
-                    style={{
-                      padding: "0.5rem 1rem",
-                      backgroundColor: "#28a745",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                      fontSize: "14px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    Connect
-                  </button>
+             
                   <button
                     onClick={async () => {
                       if (
@@ -246,6 +232,22 @@ const TravelCarpool = () => {
                     }}
                   >
                     Delete
+                  </button>
+                   <button
+                    onClick={() => alert("Connect functionality to be implemented")}
+                    disabled={loading}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#28a745",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    I'm Interested
                   </button>
                 </div>
               </div>

@@ -225,22 +225,13 @@ const BuySellList = () => {
                   gap: "10px",
                 }}
               >
-                <button
-                  onClick={() => contactSeller(item._id, item.title)}
-                  style={{
-                    ...buttonStyle,
-                    backgroundColor: "#007bff",
-                    flex: "1 1 30%",
-                  }}
-                >
-                  Connect
-                </button>
+              
                 <button
                   onClick={() => addEditItem(item._id)}
                   style={{
                     ...buttonStyle,
-                    backgroundColor: "#17a2b8",
                     flex: "1 1 30%",
+                    background: "#ffc107",
                   }}
                 >
                   Edit
@@ -275,6 +266,16 @@ const BuySellList = () => {
                   }}
                 >
                   Delete
+                </button>
+                  <button
+                  onClick={() => contactSeller(item._id, item.title)}
+                  style={{
+                    ...buttonStyle,
+                      background: "#28a745",                     
+                      flex: "1 1 30%",
+                  }}
+                >
+                  I'm Interested
                 </button>
               </div>
             </li>

@@ -216,7 +216,7 @@ const SkillSwapList = () => {
                   onClick={() => addEditItem(item._id)}
                   style={{
                     ...buttonStyle,
-                    backgroundColor: "#007bff",
+                    background: "#ffc107",
                     fontWeight: "bold",
                     fontSize: "14px",
                     padding: "8px 12px",
@@ -255,7 +255,7 @@ const SkillSwapList = () => {
                 >
                   {interestedItems.has(item._id)
                     ? "Interested"
-                    : "I am interested"}
+                    : "I'm interested"}
                 </button>
               </div>
             </li>

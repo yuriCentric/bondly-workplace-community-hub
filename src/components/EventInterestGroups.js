@@ -144,7 +144,6 @@ const EventInterestGroups = () => {
                   style={{
                     ...styles.btn,
                     background: "#ffc107",
-                    color: "#000",
                   }}
                 >
                   Edit
