@@ -324,10 +324,10 @@ const headerStyle = {
 };
 
 const addButtonStyle = {
-  backgroundColor: "#4CAF50",
+  backgroundColor: "#007bff",
   color: "white",
   border: "none",
-  padding: "10px 15px",
+  padding: "8px 12px",
   borderRadius: "5px",
   cursor: "pointer",
 };
@@ -364,9 +364,10 @@ const emptyStyle = {
 const buttonStyle = {
   color: "white",
   border: "none",
-  padding: "5px 10px",
+  padding: "8px 12px",
   borderRadius: "4px",
   cursor: "pointer",
+  fontSize: "14px",
 };
 
 export default BuySellList;
