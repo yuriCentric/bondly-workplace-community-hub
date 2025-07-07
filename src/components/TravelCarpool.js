@@ -26,38 +26,48 @@ const TravelCarpool = () => {
     fetchItems();
   }, []);
 
-  // Inline styles using CSS Grid and Flexbox
+  // Updated styles to match BuySell.js UI
   const styles = {
-    section: { padding: "2rem", fontFamily: "sans-serif" },
+    section: {
+      maxWidth: "700px",
+      margin: "30px auto",
+      padding: "20px",
+      fontFamily: "Arial, sans-serif",
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+      boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
+    },
     button: {
       gridColumn: "1 / -1",
       padding: "0.75rem",
       fontSize: "1rem",
-      background: "#007bff",
-      color: "#fff",
+      backgroundColor: "#4CAF50",
+      color: "white",
       border: "none",
+      borderRadius: "5px",
       cursor: "pointer",
     },
     error: { color: "red", marginBottom: "1rem", textAlign: "center" },
     grid: {
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+      gridTemplateColumns: "repeat(2, 1fr)",
       gap: "1rem",
     },
     card: {
       border: "1px solid #ddd",
-      borderRadius: "10px",
-      padding: "1rem",
+      borderRadius: "8px",
+      padding: "20px",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
       backgroundColor: "#fff",
+      boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
       transition: "0.3s ease",
     },
 
     deleteBtn: {
       padding: "0.6rem",
-      background: "#dc3545",
+      backgroundColor: "#f44336",
       color: "#fff",
       border: "none",
       cursor: "pointer",
@@ -79,16 +89,7 @@ const TravelCarpool = () => {
         <h2 style={{ margin: 0, flex: 1 }}>Travel & Carpooling</h2>
         <button
           type="button"
-          style={{
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            padding: "8px 14px",
-            borderRadius: "5px",
-            cursor: "pointer",
-            marginLeft: "10px",
-            whiteSpace: "nowrap",
-          }}
+          style={styles.button}
           onClick={() => navigate(`/travel-carpool/add/`)}
         >
           Add Carpool
@@ -127,9 +128,8 @@ const TravelCarpool = () => {
                 style={{
                   ...styles.card,
                   backgroundColor: "#ffffff",
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
                   transition: "0.3s",
-                  border: "1px solid #eee",
+                  border: "1px solid #ddd",
                 }}
               >
                 <div
@@ -189,7 +189,7 @@ const TravelCarpool = () => {
                     disabled={loading}
                     style={{
                       padding: "0.5rem 1rem",
-                      backgroundColor: "#007bff",
+                      background: "#ffc107",
                       color: "#fff",
                       border: "none",
                       borderRadius: "5px",
@@ -222,14 +222,7 @@ const TravelCarpool = () => {
                       }
                     }}
                     disabled={loading}
-                    style={{
-                      ...styles.deleteBtn,
-                      borderRadius: "6px",
-                      fontWeight: "600",
-                      fontSize: "14px",
-                      marginTop: "0",
-                      background: "#e74c3c",
-                    }}
+                    style={styles.deleteBtn}
                   >
                     Delete
                   </button>
