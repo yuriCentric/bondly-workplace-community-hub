@@ -15,6 +15,7 @@ import TravelCarpoolAdd from "./components/TravelCarPoolAdd";
 import MicrosoftAuth from "./components/MicrosoftAuth";
 import AddEventInterest from "./components/AddEventInterest";
 import { FiLogOut } from "react-icons/fi";
+import logo from "./logo.svg";
 
 const PrivateRoute = ({ isLoggedIn, children }) => {
   if (!isLoggedIn) return <Navigate to="/" replace />;
@@ -490,6 +491,30 @@ ${skillSummary}
             <FaPaperPlane size={14} />
           </button>
         </div>
+      </div>
+      {/* Company Logo in Bottom-Left */}
+      <div
+        style={{
+          position: "fixed",
+          top: "30px",
+          left: "40px",
+          zIndex: 1000,
+          backgroundColor: "white",
+        }}
+      >
+        <img
+          src={logo}
+          alt="Company Logo"
+          style={{
+            width: "100px",
+            height: "40px",
+            opacity: 0.8,
+            transition: "transform 0.3s",
+            cursor: "pointer",
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+          onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1.0)")}
+        />
       </div>
     </div>
   );
