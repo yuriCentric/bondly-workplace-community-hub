@@ -55,7 +55,7 @@ const EventInterestGroups = () => {
   const filtered = items.filter((i) => i.category === type);
 
   return (
-    <section style={{ maxWidth: "900px", margin: "auto", padding: "20px" }}>
+    <section style={{ maxWidth: "900px", margin: "auto" }}>
       <div style={styles.header}>
         <h2>{type}s</h2>
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>

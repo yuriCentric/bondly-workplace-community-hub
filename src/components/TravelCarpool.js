@@ -77,7 +77,7 @@ const TravelCarpool = () => {
           <div style={styles.searchWrapper}>
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search travels..."
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
               style={styles.searchInput}

@@ -250,6 +250,7 @@ ${skillSummary}
           backgroundColor: "#f0f4f8",
           minHeight: "100vh",
           padding: "40px 0",
+          paddingTop: "100px",
         }}
       >
         <Routes>

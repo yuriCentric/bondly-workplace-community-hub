@@ -32,7 +32,6 @@ const MicrosoftAuth = ({ onLoginChange }) => {
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
-    padding: "1rem",
     fontFamily: "sans-serif",
   }}
 >
