@@ -8,6 +8,7 @@ const BuySellList = () => {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
+  const [interestedItems, setInterestedItems] = useState(new Set());
 
   const fetchItems = async () => {
     setLoading(true);
@@ -45,7 +46,8 @@ const BuySellList = () => {
     }
   };
 
-  const contactSeller = (itemId, itemName) => {
+  const showInterest = (itemId, itemName) => {
+    setInterestedItems((prev) => new Set(prev).add(itemId));
     const email = "yuri.narang@centricconsulting.com";
     const itemUrl = `http://localhost:3000/buy-sell/add/${itemId}`;
     const message = `Hello, I am interested in the item [${itemName}](${itemUrl}).`;
@@ -102,7 +104,10 @@ const BuySellList = () => {
       {loading && items.length === 0 ? (
         <div>
           {" "}
-          <FaSpinner className="spin" style={{ marginRight: "8px",color:"#004080" }} />
+          <FaSpinner
+            className="spin"
+            style={{ marginRight: "8px", color: "#004080" }}
+          />
           <p>Loading items...</p>
         </div>
       ) : (
@@ -225,7 +230,6 @@ const BuySellList = () => {
                   gap: "10px",
                 }}
               >
-              
                 <button
                   onClick={() => addEditItem(item._id)}
                   style={{
@@ -267,15 +271,23 @@ const BuySellList = () => {
                 >
                   Delete
                 </button>
-                  <button
-                  onClick={() => contactSeller(item._id, item.title)}
+                <button
+                  onClick={() => showInterest(item._id, item.title)}
+                  disabled={interestedItems.has(item._id)}
                   style={{
                     ...buttonStyle,
-                      background: "#28a745",                     
-                      flex: "1 1 30%",
+                    background: interestedItems.has(item._id)
+                      ? "#6c757d"
+                      : "#28a745",
+                    flex: "1 1 30%",
+                    cursor: interestedItems.has(item._id)
+                      ? "not-allowed"
+                      : "pointer",
                   }}
                 >
-                  I'm Interested
+                  {interestedItems.has(item._id)
+                    ? "Interested"
+                    : "I'm interested"}
                 </button>
               </div>
             </li>

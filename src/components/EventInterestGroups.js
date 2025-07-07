@@ -7,6 +7,7 @@ const EventInterestGroups = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [interestedItems, setInterestedItems] = useState(new Set());
 
   const fetchItems = async () => {
     try {
@@ -156,18 +157,32 @@ const EventInterestGroups = () => {
                 </button>
                 <button
                   onClick={() => {
-                    const msg = `Hello, I'm interested in your ${type.toLowerCase()} "${
+                    setInterestedItems((prev) => new Set(prev).add(item._id));
+                    const msg = `Hello, I'm interested in your ${type.toLowerCase()} [${
                       item.title
-                    }"`;
+                    }](${window.location.origin}/event-interest-groups/add/${
+                      item._id
+                    }).`;
                     window.open(
                       `https://teams.microsoft.com/l/chat/0/0?users=${
                         item.postedBy
                       }&message=${encodeURIComponent(msg)}`
                     );
                   }}
-                  style={{ ...styles.btn, background: "#28a745" }}
+                  style={{
+                    ...styles.btn,
+                    background: interestedItems.has(item._id)
+                      ? "#6c757d"
+                      : "#28a745",
+                    cursor: interestedItems.has(item._id)
+                      ? "not-allowed"
+                      : "pointer",
+                  }}
+                  disabled={interestedItems.has(item._id)}
                 >
-                  I'm Interested
+                  {interestedItems.has(item._id)
+                    ? "Interested"
+                    : "I'm interested"}
                 </button>
               </div>
             </li>

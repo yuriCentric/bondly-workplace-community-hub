@@ -7,6 +7,7 @@ const TravelCarpool = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [interestedItems, setInterestedItems] = useState(new Set());
 
   const fetchItems = async () => {
     setLoading(true);
@@ -25,6 +26,21 @@ const TravelCarpool = () => {
   useEffect(() => {
     fetchItems();
   }, []);
+
+  const showInterest = async (item) => {
+    setInterestedItems((prev) => new Set(prev).add(item._id));
+    const email = "yuri.narang@centricconsulting.com";
+    const itemUrl = `http://localhost:3000/travel-carpool/add/${item._id}`;
+    const message = `Hi, I'm interested in the carpool [from ${
+      item.travelFrom
+    } to ${item.travelTo} on ${new Date(
+      item.date
+    ).toLocaleDateString()}.](${itemUrl})`;
+    const teamsLink = `https://teams.microsoft.com/l/chat/0/0?users=${encodeURIComponent(
+      email
+    )}&message=${encodeURIComponent(message)}`;
+    window.open(teamsLink, "_blank");
+  };
 
   // Updated styles to match BuySell.js UI
   const styles = {
@@ -178,12 +194,18 @@ const TravelCarpool = () => {
                     fontWeight: "bold",
                   }}
                 >
-                   Passenger
-                  {item.numberOfPassengers > 1 ? "s" : ""}: {item.numberOfPassengers}
+                  Passenger
+                  {item.numberOfPassengers > 1 ? "s" : ""}:{" "}
+                  {item.numberOfPassengers}
                 </div>
 
-                <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
-                      
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "1rem",
+                  }}
+                >
                   <button
                     onClick={() => navigate(`/travel-carpool/edit/${item._id}`)}
                     disabled={loading}
@@ -200,7 +222,7 @@ const TravelCarpool = () => {
                   >
                     Edit
                   </button>
-             
+
                   <button
                     onClick={async () => {
                       if (
@@ -226,21 +248,27 @@ const TravelCarpool = () => {
                   >
                     Delete
                   </button>
-                   <button
-                    onClick={() => alert("Connect functionality to be implemented")}
-                    disabled={loading}
+                  <button
+                    onClick={() => showInterest(item)}
+                    disabled={loading || interestedItems.has(item._id)}
                     style={{
                       padding: "0.5rem 1rem",
-                      backgroundColor: "#28a745",
+                      backgroundColor: interestedItems.has(item._id)
+                        ? "#6c757d"
+                        : "#28a745",
                       color: "#fff",
                       border: "none",
                       borderRadius: "5px",
-                      cursor: "pointer",
+                      cursor: interestedItems.has(item._id)
+                        ? "not-allowed"
+                        : "pointer",
                       fontSize: "14px",
                       fontWeight: "600",
                     }}
                   >
-                    I'm Interested
+                    {interestedItems.has(item._id)
+                      ? "Interested"
+                      : "I'm interested"}
                   </button>
                 </div>
               </div>

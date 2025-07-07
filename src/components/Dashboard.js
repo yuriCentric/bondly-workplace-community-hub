@@ -180,6 +180,10 @@ const Dashboard = () => {
           entries: eventInterestGroups,
           render: (item) => (
             <li style={styles.liItem}>
+              <h4 style={styles.itemTitle}>
+                {item.title}{" "}
+                {item.category == "Event" ? `: ${item.date} ${item.time}` : ""}
+              </h4>
               <p style={styles.itemDesc}>{item.description}</p>
             </li>
           ),
@@ -189,6 +193,9 @@ const Dashboard = () => {
           entries: skillSwapMentorship,
           render: (item) => (
             <li style={styles.liItem}>
+              <h4 style={styles.itemTitle}>
+                {item.skillName} : {item.proficiencyLevel}
+              </h4>
               <p style={styles.itemDesc}>{item.description}</p>
             </li>
           ),
