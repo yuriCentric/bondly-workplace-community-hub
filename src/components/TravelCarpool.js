@@ -139,7 +139,7 @@ const TravelCarpool = () => {
                         );
                         if (!res.ok)
                           throw new Error("Failed to delete carpool");
-                        setItems(items.filter((i) => i._id !== item._id));
+                        fetchItems();
                       } catch (err) {
                         setError(err.message);
                       }

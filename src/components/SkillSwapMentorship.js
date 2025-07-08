@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export function SkillSwapMentorship() {
@@ -73,6 +73,35 @@ export function SkillSwapMentorship() {
       setLoading(false);
     }
   };
+
+  const fetchItem = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `http://localhost:4000/skill-swap-mentorship/${id}`
+      );
+      if (!response.ok) throw new Error("Failed to fetch skill swap item");
+      const data = await response.json();
+      setForm({
+        skillName: data.skillName || "",
+        skillType: data.skillType || "",
+        intent: data.intent || "Offer mentorship",
+        proficiencyLevel: data.proficiencyLevel || "Beginner",
+        description: data.description || "",
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchItem();
+    }
+  }, [id]);
 
   return (
     <div
